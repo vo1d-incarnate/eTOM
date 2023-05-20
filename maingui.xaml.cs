@@ -87,7 +87,6 @@ namespace eTOM
         private void Client_edit_click(object sender, RoutedEventArgs e)
         {
 
-
             DataRowView rowView = clients.SelectedValue as DataRowView;
             ClientEdit clientEdit = new ClientEdit();
             string idData = rowView[0].ToString();
@@ -102,6 +101,7 @@ namespace eTOM
         {
             try
             {
+                Console.WriteLine("good0");
                 connecting.Open();
                 string sql = @"SELECT name_client, surname, fathername, docnumb, address FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
@@ -112,6 +112,8 @@ namespace eTOM
                 //     services.DataContext = iDataSet;
 
                 connecting.Close();
+
+                Console.WriteLine("good1");
 
                 DataTable ct = iDataSet.Tables[0];
 
@@ -124,32 +126,23 @@ namespace eTOM
                 sheet.Cells[1, 4] = "Номер документов";
                 sheet.Cells[1, 5] = "Адрес";
 
+                Console.WriteLine("good2");
                 Excel.Range range = sheet.Range[sheet.Cells[2, 1], sheet.Cells[ct.Rows.Count, ct.Columns.Count]];
+                Console.WriteLine("good2.5");
                 for (int i = 0; i < ct.Rows.Count; ++i)
                     for (int j = 0; j < ct.Columns.Count; ++j)
                     {
+                        //Console.WriteLine("good2.9");
+                        //MessageBox.Show(ct.Rows[i][j].GetType().ToString());
+                        //MessageBox.Show(ct.Rows[i][j].ToString());
                         range.Cells[1 + i, 1 + j] = ct.Rows[i][j].ToString();
-                        //  MessageBox.Show(ct.Rows[i][j].ToString());
+                        
 
-                        if (j == 2)
-                        {
-                            range.Cells[1 + i, 1 + j] = double.Parse(ct.Rows[i][j].ToString());
-                        }
-                        else if (j == 9)
-                        {
-                            string dateExcel = ct.Rows[i][j].ToString().Remove(ct.Rows[i][j].ToString().LastIndexOf(@" ")); ;
-                            range.Cells[1 + i, 1 + j] = dateExcel;
-                        }
-                        if (ct.Rows[i][j].ToString() == "True")
-                        {
-                            range.Cells[1 + i, 1 + j] = "Да";
-                        }
-                        else if (ct.Rows[i][j].ToString() == "False")
-                        {
-                            range.Cells[1 + i, 1 + j] = "Нет";
-                        }
 
                     }
+
+
+                Console.WriteLine("good3");
                 sheet.Cells.EntireColumn.AutoFit();
                 sheet.Cells.EntireRow.AutoFit();
                 sheet.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;

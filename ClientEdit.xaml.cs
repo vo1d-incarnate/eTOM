@@ -72,6 +72,12 @@ namespace eTOM
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+            if (name == null || string.IsNullOrWhiteSpace(name.Text)) { MessageBox.Show("Введите имя"); return; }
+            else if (surname == null || string.IsNullOrWhiteSpace(surname.Text)) { MessageBox.Show("Введите фамилию"); return; }
+            else if (docNumb == null || string.IsNullOrWhiteSpace(docNumb.Text)) { MessageBox.Show("Введите номер документа"); return; }
+            else if (address == null || string.IsNullOrWhiteSpace(address.Text)) { MessageBox.Show("Введите адрес"); return; }
+
             try
             {
                 if (MessageBox.Show("Вы уверены, что хотите внести изменения?", "Изменения внесены", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -82,7 +88,7 @@ namespace eTOM
                     connect.Open();
 
 
-                    string sql = @"UPDATE public." + '\u0022' + "Clients" + '\u0022' + "SET name=" + '\u0027' + name.Text + '\u0027' + ", surname=" + '\u0027' +surname.Text + '\u0027' + ", fathername=" + '\u0027' + fatherName.Text + '\u0027' + ", docnumb=" + '\u0027' + docNumb.Text + '\u0027' + ", address=" + '\u0027' + address + '\u0027' + " WHERE id = " + idData + ";";
+                    string sql = @"UPDATE public." + '\u0022' + "Clients" + '\u0022' + "SET name_client=" + '\u0027' + name.Text + '\u0027' + ", surname=" + '\u0027' +surname.Text + '\u0027' + ", fathername=" + '\u0027' + fatherName.Text + '\u0027' + ", docnumb=" + '\u0027' + docNumb.Text + '\u0027' + ", address=" + '\u0027' + address.Text + '\u0027' + " WHERE id = " + idData + ";";
                     sql = sql.Replace("Нет", "false");
                     sql = sql.Replace("Да", "true");
                     NpgsqlCommand cmd = new NpgsqlCommand(sql, connect);
