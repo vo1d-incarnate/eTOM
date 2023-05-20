@@ -77,7 +77,7 @@
                                 <DataGridTextColumn Header="Отчество" Width="*" Binding="{Binding Path=fathername}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Номер документа" Width="*" Binding="{Binding Path=docnumb}" ElementStyle="{StaticResource WrapText}" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="Адрес" Width="*" Binding="{Binding Path=address}" ElementStyle="{StaticResource WrapText}" ></DataGridTextColumn>
-                                
+
                                 <DataGridTemplateColumn Header="Действие" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -90,9 +90,18 @@
                         </DataGrid>
 
                         <Canvas>
-                            <Button Content="Перезагрузить" Canvas.Left="284" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Click="Reload_page"  Width="92"></Button>
-                            <Button Content="Добавить" Canvas.Left="6" Canvas.Top="10" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Width="92" Click="ClientAdd_click"/>
+                            <Button Content="Перезагрузить" Canvas.Left="290" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Click="Reload_page"  Width="92"></Button>
+                            <Button Content="Добавить" Canvas.Left="22" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Width="92" Click="ClientAdd_click"/>
                             <Button Content="Создать отчет" Canvas.Left="580" Canvas.Top="364" Height="40" Click="Client_excel"  Width="92" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <ComboBox Canvas.Left="241" Canvas.Top="19" HorizontalAlignment="Left" VerticalAlignment="Center" Width="141">
+                                <ComboBoxItem Content="Имя"></ComboBoxItem>
+                                <ComboBoxItem Content="Фамилия"></ComboBoxItem>
+                                <ComboBoxItem Content="Отчество"></ComboBoxItem>
+                                <ComboBoxItem Content="Номер документа"></ComboBoxItem>
+                                <ComboBoxItem Content="Адрес"></ComboBoxItem>
+                            </ComboBox>
+                            <TextBox Canvas.Left="397" Canvas.Top="21" HorizontalAlignment="Left" VerticalAlignment="Center" Width="140"></TextBox>
+                            <Button Content="Поиск" Click="findClient" Canvas.Left="554" Canvas.Top="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65"></Button>
                         </Canvas>
                     </Grid>
                 </TabItem.Content>
