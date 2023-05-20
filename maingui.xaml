@@ -9,6 +9,7 @@
       
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      Loaded="Page_Loaded"
       Title="maingui">
 
     <Page.Resources>
@@ -53,9 +54,50 @@
     <Grid Background="#CC7218">
 
 
-        <TabControl DockPanel.Dock="Top" Background="#ffb56b" BorderBrush="#ffb56b" TabStripPlacement="Left"  >
+        <TabControl DockPanel.Dock="Top" Background="#ffb56b" BorderBrush="#ffb56b" TabStripPlacement="Left"  x:Name="TabControl">
 
-            <TabItem x:Name="tabItem" Header="Услуги" ></TabItem>
+            <TabItem x:Name="tabItem" Header="Клиенты">
+                <TabItem.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"></RowDefinition>
+                            <RowDefinition Height="295"></RowDefinition>
+                            <RowDefinition Height="0*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <DataGrid Background="#ffb56b" AutoGenerateColumns="False"  Grid.Row="1" x:Name="clients" ItemsSource="{Binding Path=Clients}" CanUserResizeRows="False" >
+                            <DataGrid.Resources>
+                                <Style TargetType="TextBlock" x:Key="WrapText">
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Visibility="Hidden" Header="id" Width="*" Binding="{Binding Path=id}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Path=name_client}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Фамилия" Width="*" Binding="{Binding Path=surname}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Отчество" Width="*" Binding="{Binding Path=fathername}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Номер документа" Width="*" Binding="{Binding Path=docnumb}" ElementStyle="{StaticResource WrapText}" ></DataGridTextColumn>
+                                <DataGridTextColumn Header="Адрес" Width="*" Binding="{Binding Path=address}" ElementStyle="{StaticResource WrapText}" ></DataGridTextColumn>
+                                
+                                <DataGridTemplateColumn Header="Действие" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Click="Client_edit_click">Подробнее</Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Canvas>
+                            <Button Content="Перезагрузить" Canvas.Left="284" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Click="Reload_page"  Width="92"></Button>
+                            <Button Content="Добавить" Canvas.Left="6" Canvas.Top="10" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Width="92" Click="ClientAdd_click"/>
+                            <Button Content="Создать отчет" Canvas.Left="580" Canvas.Top="364" Height="40" Click="Client_excel"  Width="92" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Canvas>
+                    </Grid>
+                </TabItem.Content>
+
+            </TabItem>
             <TabItem Header="Маркетинг" ></TabItem>
 
         </TabControl>
@@ -67,9 +109,7 @@
         <Image Width="250" Height="150"
                Source="{Binding Source={StaticResource SampleData}, 
                                 Converter={StaticResource ListToTextEncodingConverter},
-                                ConverterParameter='http://chart.apis.google.com/chart?cht=lc&amp;chs=250x150&amp;chds=0,30'}"/>
-
-        <Button Content="Добавить" Canvas.Left="6" Canvas.Top="10" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Width="92" Click="ClientAdd_click" Margin="0,335,0,0"/>
+                                ConverterParameter='http://chart.apis.google.com/chart?cht=lc&amp;chs=250x150&amp;chds=0,30'}" Margin="-449,171,999,129"/>
     </Grid>
 
 

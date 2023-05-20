@@ -32,6 +32,12 @@ namespace eTOM
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+            if (name == null || string.IsNullOrWhiteSpace(name.Text)) { MessageBox.Show("Введите имя"); return; } 
+            else if (surname == null || string.IsNullOrWhiteSpace(surname.Text)) { MessageBox.Show("Введите фамилию"); return; }
+            else if (docNumb == null || string.IsNullOrWhiteSpace(docNumb.Text)) { MessageBox.Show("Введите номер документа"); return; }
+            else if (address == null || string.IsNullOrWhiteSpace(address.Text)) { MessageBox.Show("Введите адрес"); return; }
+
             try
             {
                 if (MessageBox.Show("Вы уверены, что хотите добавить услугу?", "Услуга добавлена", MessageBoxButton.YesNo) == MessageBoxResult.Yes)

@@ -46,6 +46,11 @@
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\..\WINDOWS\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql, Version=7.0.4.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>packages\Npgsql.7.0.4\lib\netstandard2.0\Npgsql.dll</HintPath>
     </Reference>
@@ -107,6 +112,9 @@
     <Compile Include="ClientAdd.xaml.cs">
       <DependentUpon>ClientAdd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ClientEdit.xaml.cs">
+      <DependentUpon>ClientEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ListToTextEncodingConverter.cs" />
     <Compile Include="gui.xaml.cs">
       <DependentUpon>gui.xaml</DependentUpon>
@@ -121,6 +129,10 @@
       <DependentUpon>services.xaml</DependentUpon>
     </Compile>
     <Page Include="ClientAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ClientEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
