@@ -172,6 +172,10 @@ namespace eTOM
             {
                 //string searchParamBack = searchParam.Text.Remove(searchParam.Text.LastIndexOf(@" "));
 
+                if (searchParam.Text == null || string.IsNullOrWhiteSpace(searchParam.Text)) { MessageBox.Show("Выберите поле для поиска"); return; }
+                else  if (searchText.Text == null || string.IsNullOrWhiteSpace(searchParam.Text)) { MessageBox.Show("Введите данные для поиска"); return; }
+
+
                 connecting.Open();
 
                 string sql = null;
@@ -193,7 +197,8 @@ namespace eTOM
                         sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE address = " + '\u0027' + searchText.Text + '\u0027' + ";";
                         break;
                 }
-                //string sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE" + ";";
+
+
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataSet iDataSet = new DataSet();
