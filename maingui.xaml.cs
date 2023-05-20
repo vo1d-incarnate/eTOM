@@ -166,9 +166,48 @@ namespace eTOM
         }
 
 
-        private void findClient(object sender, RoutedEventArgs e)
+        private void findClient (object sender, RoutedEventArgs e)
         {
+            try
+            {
+                //string searchParamBack = searchParam.Text.Remove(searchParam.Text.LastIndexOf(@" "));
 
+                connecting.Open();
+
+                string sql = null;
+                switch (searchParam.Text)
+                {
+                    case "Имя":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE name_client = " + '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                    case "Фамилия":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE surname = " + '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                    case "Отчество":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE fathername = " + '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                    case "Номер документа":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE docnumb = " + '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                    case "Адрес":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE address = " + '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                }
+                //string sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE" + ";";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+                DataSet iDataSet = new DataSet();
+                iAdapter.Fill(iDataSet, "Clients");
+
+                clients.IsReadOnly = true;
+                clients.DataContext = iDataSet;
+
+                connecting.Close();
+            } catch (Exception ex)
+            {
+                connecting.Close();
+                MessageBox.Show("Error" + ex.Message);
+            }
         }
 
 
@@ -176,3 +215,32 @@ namespace eTOM
 
     }
 }
+/*
+
+
+                string searchParamBack = searchParam.Text.Remove(searchParam.Text.LastIndexOf(@" "));
+
+                connecting.Open();
+
+                string sql = null;
+                switch (searchParam.Text.Remove(searchParam.Text.LastIndexOf(@" ")))
+                {
+                    case "Имя":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE name_client = "+ '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                    case "Фамилия":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE surname = "+ '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                    case "Отчество":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE fathername = "+ '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                    case "Номер документа":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE docnumb = "+ '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                    case "Адрес":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE address = "+ '\u0027' + searchText.Text + '\u0027' + ";";
+                        break;
+                }
+
+
+*/

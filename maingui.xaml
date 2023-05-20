@@ -93,14 +93,14 @@
                             <Button Content="Перезагрузить" Canvas.Left="290" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Click="Reload_page"  Width="92"></Button>
                             <Button Content="Добавить" Canvas.Left="22" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Width="92" Click="ClientAdd_click"/>
                             <Button Content="Создать отчет" Canvas.Left="580" Canvas.Top="364" Height="40" Click="Client_excel"  Width="92" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <ComboBox Canvas.Left="241" Canvas.Top="19" HorizontalAlignment="Left" VerticalAlignment="Center" Width="141">
+                            <ComboBox Name="searchParam" IsEditable="False" IsReadOnly="True" Canvas.Left="241" Canvas.Top="19" HorizontalAlignment="Left" VerticalAlignment="Center" Width="141">
                                 <ComboBoxItem Content="Имя"></ComboBoxItem>
                                 <ComboBoxItem Content="Фамилия"></ComboBoxItem>
                                 <ComboBoxItem Content="Отчество"></ComboBoxItem>
                                 <ComboBoxItem Content="Номер документа"></ComboBoxItem>
                                 <ComboBoxItem Content="Адрес"></ComboBoxItem>
                             </ComboBox>
-                            <TextBox Canvas.Left="397" Canvas.Top="21" HorizontalAlignment="Left" VerticalAlignment="Center" Width="140"></TextBox>
+                            <TextBox x:Name="searchText" Canvas.Left="397" Canvas.Top="21" HorizontalAlignment="Left" VerticalAlignment="Center" Width="140"></TextBox>
                             <Button Content="Поиск" Click="findClient" Canvas.Left="554" Canvas.Top="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65"></Button>
                         </Canvas>
                     </Grid>
