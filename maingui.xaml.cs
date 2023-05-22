@@ -50,7 +50,7 @@ namespace eTOM
             try
             {
                 connecting.Open();
-                string sql = @"SELECT id, name_client, surname, fathername, docnumb, address
+                string sql = @"SELECT id, name_client, surname, fathername, contractnumb, address
 	FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
@@ -103,7 +103,7 @@ namespace eTOM
             {
                 Console.WriteLine("good0");
                 connecting.Open();
-                string sql = @"SELECT name_client, surname, fathername, docnumb, address FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
+                string sql = @"SELECT name_client, surname, fathername, docnumb, address, telnumb, contractnumb, balance FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataSet iDataSet = new DataSet();
@@ -113,7 +113,6 @@ namespace eTOM
 
                 connecting.Close();
 
-                Console.WriteLine("good1");
 
                 DataTable ct = iDataSet.Tables[0];
 
@@ -123,26 +122,21 @@ namespace eTOM
                 sheet.Cells[1, 1] = "Имя";
                 sheet.Cells[1, 2] = "Фамилия";
                 sheet.Cells[1, 3] = "Отчество";
-                sheet.Cells[1, 4] = "Номер документов";
+                sheet.Cells[1, 4] = "Номер документа";
                 sheet.Cells[1, 5] = "Адрес";
+                sheet.Cells[1, 6] = "Номер телефона";
+                sheet.Cells[1, 7] = "Номер договора";
+                sheet.Cells[1, 8] = "Баланс";
 
-                Console.WriteLine("good2");
+
                 Excel.Range range = sheet.Range[sheet.Cells[2, 1], sheet.Cells[ct.Rows.Count, ct.Columns.Count]];
-                Console.WriteLine("good2.5");
+
                 for (int i = 0; i < ct.Rows.Count; ++i)
                     for (int j = 0; j < ct.Columns.Count; ++j)
                     {
-                        //Console.WriteLine("good2.9");
-                        //MessageBox.Show(ct.Rows[i][j].GetType().ToString());
-                        //MessageBox.Show(ct.Rows[i][j].ToString());
                         range.Cells[1 + i, 1 + j] = ct.Rows[i][j].ToString();
-                        
-
-
                     }
 
-
-                Console.WriteLine("good3");
                 sheet.Cells.EntireColumn.AutoFit();
                 sheet.Cells.EntireRow.AutoFit();
                 sheet.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
@@ -171,9 +165,8 @@ namespace eTOM
             try
             {
                 //string searchParamBack = searchParam.Text.Remove(searchParam.Text.LastIndexOf(@" "));
-
                 if (searchParam.Text == null || string.IsNullOrWhiteSpace(searchParam.Text)) { MessageBox.Show("Выберите поле для поиска"); return; }
-                else  if (searchText.Text == null || string.IsNullOrWhiteSpace(searchParam.Text)) { MessageBox.Show("Введите данные для поиска"); return; }
+                else  if (searchText.Text == null || string.IsNullOrWhiteSpace(searchText.Text)) { MessageBox.Show("Введите данные для поиска"); return; }
 
 
                 connecting.Open();
@@ -190,8 +183,8 @@ namespace eTOM
                     case "Отчество":
                         sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE fathername = " + '\u0027' + searchText.Text + '\u0027' + ";";
                         break;
-                    case "Номер документа":
-                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE docnumb = " + '\u0027' + searchText.Text + '\u0027' + ";";
+                    case "Номер договора":
+                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE contractnumb = " + '\u0027' + searchText.Text + '\u0027' + ";";
                         break;
                     case "Адрес":
                         sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE address = " + '\u0027' + searchText.Text + '\u0027' + ";";
@@ -215,9 +208,11 @@ namespace eTOM
             }
         }
 
-
-
-
+        private void test(object sender, RoutedEventArgs e)
+        {
+            UserLoginWindow userLoginWindow = new UserLoginWindow();
+            userLoginWindow.Show();
+        }
     }
 }
 /*

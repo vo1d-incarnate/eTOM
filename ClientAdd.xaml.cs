@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,21 +36,22 @@ namespace eTOM
 
             if (name == null || string.IsNullOrWhiteSpace(name.Text)) { MessageBox.Show("Введите имя"); return; } 
             else if (surname == null || string.IsNullOrWhiteSpace(surname.Text)) { MessageBox.Show("Введите фамилию"); return; }
-            else if (docNumb == null || string.IsNullOrWhiteSpace(docNumb.Text)) { MessageBox.Show("Введите номер документа"); return; }
             else if (address == null || string.IsNullOrWhiteSpace(address.Text)) { MessageBox.Show("Введите адрес"); return; }
+            else if (telNumb == null || string.IsNullOrWhiteSpace(telNumb.Text)) { MessageBox.Show("Введите номер телефона"); return; }
+            else if (telNumb.Text.Length != Regex.Replace(telNumb.Text, @"[^0-9]", "").Length || telNumb.Text.Length != 10) { MessageBox.Show("Введите корректный номер телефона"); return; }
+            else if (docNumb == null || string.IsNullOrWhiteSpace(docNumb.Text)) { MessageBox.Show("Введите номер документа"); return; }
+            else if (docNumb.Text.Length != Regex.Replace(docNumb.Text, @"[^0-9]", "").Length || docNumb.Text.Length != 10) { MessageBox.Show("Введите корректный номер документа"); return; }
 
             try
             {
-                if (MessageBox.Show("Вы уверены, что хотите добавить услугу?", "Услуга добавлена", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Вы уверены, что хотите добавить клиента?", "Клиент добавлен", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     //  string channelsVar = "true";
                     // string priceBack = price.Text.Remove(price.Text.LastIndexOf(@","));
                     // string speedBack = speed.Text.Remove(speed.Text.LastIndexOf(@" "));
                     connect.Open();
 
-                    string sql = @"INSERT INTO public." + '\u0022' + "Clients" + '\u0022' + "(name_client, surname, fathername, docnumb, address) VALUES (" + '\u0027' + name.Text + '\u0027' + ", " + '\u0027' + surname.Text + '\u0027' + ", " + '\u0027' + fatherName.Text + '\u0027' + ", " + '\u0027' + docNumb.Text + '\u0027' + ", " + '\u0027' + address.Text + '\u0027' + ");";
-                    sql = sql.Replace("Нет", "false");
-                    sql = sql.Replace("Да", "true");
+                    string sql = @"INSERT INTO public." + '\u0022' + "Clients" + '\u0022' + "(name_client, surname, fathername, address, telnumb, docnumb) VALUES (" + '\u0027' + name.Text + '\u0027' + ", " + '\u0027' + surname.Text + '\u0027' + ", " + '\u0027' + fatherName.Text + '\u0027' + ", " + '\u0027' + address.Text + '\u0027' + ", " + '\u0027' + telNumb.Text + '\u0027' + ", " + '\u0027' + docNumb.Text + '\u0027' + ");";
                     NpgsqlCommand cmd = new NpgsqlCommand(sql, connect);
                     cmd.ExecuteNonQuery();
                     connect.Close();

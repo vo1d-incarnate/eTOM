@@ -75,7 +75,7 @@
                                 <DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Path=name_client}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Фамилия" Width="*" Binding="{Binding Path=surname}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Отчество" Width="*" Binding="{Binding Path=fathername}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Номер документа" Width="*" Binding="{Binding Path=docnumb}" ElementStyle="{StaticResource WrapText}" ></DataGridTextColumn>
+                                <DataGridTextColumn Header="Номер договора" Width="*" Binding="{Binding Path=contractnumb}" ElementStyle="{StaticResource WrapText}" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="Адрес" Width="*" Binding="{Binding Path=address}" ElementStyle="{StaticResource WrapText}" ></DataGridTextColumn>
 
                                 <DataGridTemplateColumn Header="Действие" Width="*">
@@ -97,7 +97,7 @@
                                 <ComboBoxItem Content="Имя"></ComboBoxItem>
                                 <ComboBoxItem Content="Фамилия"></ComboBoxItem>
                                 <ComboBoxItem Content="Отчество"></ComboBoxItem>
-                                <ComboBoxItem Content="Номер документа"></ComboBoxItem>
+                                <ComboBoxItem Content="Номер договора"></ComboBoxItem>
                                 <ComboBoxItem Content="Адрес"></ComboBoxItem>
                             </ComboBox>
                             <TextBox x:Name="searchText" Canvas.Left="397" Canvas.Top="21" HorizontalAlignment="Left" VerticalAlignment="Center" Width="140"></TextBox>
@@ -111,7 +111,8 @@
 
         </TabControl>
         <Canvas>
-            <Button  Canvas.Bottom="0" Canvas.Left="0" Width="102" Height="40" Content="Exit" Click="Button_Click"></Button>
+            <Button  Canvas.Bottom="0" Canvas.Left="0" Width="102" Height="40" Content="Выйти" Click="Button_Click"></Button>
+            <Button  Canvas.Bottom="0" Canvas.Left="0" Width="102" Height="40" Content="test" Click="test" HorizontalAlignment="Center" Canvas.Top="356" VerticalAlignment="Top"></Button>
         </Canvas>
 
 

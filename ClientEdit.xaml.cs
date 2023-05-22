@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,7 +50,7 @@ namespace eTOM
         {
             try
             {
-                if (MessageBox.Show("Вы уверены, что хотите удалить услугу?", "Услуга удалена", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Вы уверены, что хотите удалить клиента?", "Клиент удален", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     connect.Open();
 
@@ -75,8 +76,12 @@ namespace eTOM
 
             if (name == null || string.IsNullOrWhiteSpace(name.Text)) { MessageBox.Show("Введите имя"); return; }
             else if (surname == null || string.IsNullOrWhiteSpace(surname.Text)) { MessageBox.Show("Введите фамилию"); return; }
-            else if (docNumb == null || string.IsNullOrWhiteSpace(docNumb.Text)) { MessageBox.Show("Введите номер документа"); return; }
             else if (address == null || string.IsNullOrWhiteSpace(address.Text)) { MessageBox.Show("Введите адрес"); return; }
+            else if (telNumb == null || string.IsNullOrWhiteSpace(telNumb.Text)) { MessageBox.Show("Введите номер телефона"); return; }
+            else if (telNumb.Text.Length != Regex.Replace(telNumb.Text, @"[^0-9]", "").Length || telNumb.Text.Length != 10) { MessageBox.Show("Введите корректный номер телефона"); return; }
+            else if (docNumb == null || string.IsNullOrWhiteSpace(docNumb.Text)) { MessageBox.Show("Введите номер документа"); return; }
+            else if (docNumb.Text.Length != Regex.Replace(docNumb.Text, @"[^0-9]", "").Length || docNumb.Text.Length != 10) { MessageBox.Show("Введите корректный номер документа"); return; }
+
 
             try
             {
@@ -88,9 +93,8 @@ namespace eTOM
                     connect.Open();
 
 
-                    string sql = @"UPDATE public." + '\u0022' + "Clients" + '\u0022' + "SET name_client=" + '\u0027' + name.Text + '\u0027' + ", surname=" + '\u0027' +surname.Text + '\u0027' + ", fathername=" + '\u0027' + fatherName.Text + '\u0027' + ", docnumb=" + '\u0027' + docNumb.Text + '\u0027' + ", address=" + '\u0027' + address.Text + '\u0027' + " WHERE id = " + idData + ";";
-                    sql = sql.Replace("Нет", "false");
-                    sql = sql.Replace("Да", "true");
+                    string sql = @"UPDATE public." + '\u0022' + "Clients" + '\u0022' + "SET name_client=" + '\u0027' + name.Text + '\u0027' + ", surname=" + '\u0027' +surname.Text + '\u0027' + ", fathername=" + '\u0027' + fatherName.Text + '\u0027'+ ", telnumb=" + '\u0027'+ telNumb.Text + '\u0027' + ", docnumb=" + '\u0027' + docNumb.Text + '\u0027' + ", address=" + '\u0027' + address.Text + '\u0027' + " WHERE id = " + idData + ";";
+
                     NpgsqlCommand cmd = new NpgsqlCommand(sql, connect);
                     cmd.ExecuteNonQuery();
                     connect.Close();
@@ -122,6 +126,7 @@ namespace eTOM
                 name.Text = data_row[0]["name_client"].ToString();
                 surname.Text = data_row[0]["surname"].ToString();
                 fatherName.Text = data_row[0]["fathername"].ToString();
+                telNumb.Text = data_row[0]["telnumb"].ToString();
                 docNumb.Text = data_row[0]["docnumb"].ToString();
                 address.Text = data_row[0]["address"].ToString();
 
