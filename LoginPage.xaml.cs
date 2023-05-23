@@ -53,39 +53,39 @@ namespace eTOM
                 if (iDataSet.Rows.Count != 0)
                 {
                     MessageBox.Show("Успешно");
-
+                    /*
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
-                    Window.GetWindow(this).Close();
-                    
+                    Window.GetWindow(this).Close();*/
 
-                    /*
+
                     connect.Open();
-                    string sql1 = @"SELECT FROM public." + '\u0022' + "user_roles" + '\u0022' + "WHERE" + "user_id=" + iDataSet.Rows[0][0].ToString() + ");";
+                    string sql1 = @"SELECT * FROM public." + '\u0022' + "user_roles" + '\u0022' + " WHERE " + "user_id=" + iDataSet.Rows[0][0].ToString() + ";";
                     NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connect);
-                    cmd.ExecuteNonQuery();
+                    cmd1.ExecuteNonQuery();
 
                     NpgsqlDataAdapter iAdapter1 = new NpgsqlDataAdapter(cmd1);
                     DataTable iDataSet1 = new DataTable();
                     iAdapter1.Fill(iDataSet1);
 
-                    
-                    string sql2 = @"SELECT FROM public." + '\u0022' + "Roles" + '\u0022' + "WHERE" + "id=" + iDataSet1.Rows[0][2].ToString() + ");";
+                    string sql2 = @"SELECT * FROM public." + '\u0022' + "Roles" + '\u0022' + " WHERE " + "id=" + iDataSet1.Rows[0][2].ToString() + ";";
                     NpgsqlCommand cmd2 = new NpgsqlCommand(sql2, connect);
-                    cmd.ExecuteNonQuery();
+                    cmd2.ExecuteNonQuery();
 
                     NpgsqlDataAdapter iAdapter2 = new NpgsqlDataAdapter(cmd2);
                     DataTable iDataSet2 = new DataTable();
-                    iAdapter1.Fill(iDataSet2);
-
+                    iAdapter2.Fill(iDataSet2);
 
 
                     connect.Close();
 
 
-                    MainWindow mainWindow = new MainWindow((string)iDataSet2.Rows[0][1]);
+                    MainWindow mainWindow = new MainWindow(iDataSet2.Rows[0][1].ToString());
                     mainWindow.Show();
-                    this.Visibility = Visibility.Collapsed;*/
+                    Window.GetWindow(this).Close();
+
+
+
                 } else
                 {
                     MessageBox.Show("Неправильный логин или пароль");
@@ -95,7 +95,7 @@ namespace eTOM
 
             } catch (Exception ex)
             {
-                connect.Close();
+                connect .Close();
                 MessageBox.Show("Error: " + ex.Message);
             }
 

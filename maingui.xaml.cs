@@ -27,9 +27,12 @@ namespace eTOM
 
         private string connectPostgre = String.Format("Server=Localhost;Port=5432;User Id=postgres;password=MmV8qd-+1!;Database=eTOM");
         private NpgsqlConnection connecting;
+        private string rolesLocal;
 
-        public maingui()
+        public maingui(string roles)
         {
+            rolesLocal = roles;
+            MessageBox.Show("Вы вошли с правами: " + roles);
             InitializeComponent();
         }
 
@@ -208,10 +211,11 @@ namespace eTOM
             }
         }
 
-        private void test(object sender, RoutedEventArgs e)
+        private void logOut(object sender, RoutedEventArgs e)
         {
             UserLoginWindow userLoginWindow = new UserLoginWindow();
             userLoginWindow.Show();
+            Window.GetWindow(this).Close();
         }
     }
 }

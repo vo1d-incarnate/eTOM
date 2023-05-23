@@ -111,8 +111,8 @@
 
         </TabControl>
         <Canvas>
-            <Button  Canvas.Bottom="0" Canvas.Left="0" Width="102" Height="40" Content="Выйти" Click="Button_Click"></Button>
-            <Button  Canvas.Bottom="0" Canvas.Left="0" Width="102" Height="40" Content="test" Click="test" HorizontalAlignment="Center" Canvas.Top="356" VerticalAlignment="Top"></Button>
+            <Button  Canvas.Bottom="0" Canvas.Left="0" Width="102" Height="40" Content="Закрыть" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Top"></Button>
+            <Button  Canvas.Bottom="0" Canvas.Left="0" Width="102" Height="40" Content="Выйти" Click="logOut" HorizontalAlignment="Center" Canvas.Top="356" VerticalAlignment="Top"></Button>
         </Canvas>
 
 
