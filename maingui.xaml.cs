@@ -39,9 +39,16 @@ namespace eTOM
 
             InitializeComponent();
             connecting = new NpgsqlConnection(connectPostgre);
-
+            LoadZayav();
             
-            try {
+        }
+
+
+        private void LoadZayav()
+        {
+            try
+            {
+                Zayavki.Items.Clear();
                 connecting.Open();
                 string sql = @"SELECT * FROM public." + '\u0022' + "Zayavki" + '\u0022' + ";";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
@@ -59,18 +66,18 @@ namespace eTOM
                     frame.Navigate(new zayavLifeline(j));
                     Zayavki.Items.Add(new TabItem
                     {
-                        Header = new TextBlock { Text = "Заявка №" +  j.ToString()}, // установка заголовка вкладки
-                        
+                        Header = new TextBlock { Text = "Заявка №" + j.ToString() }, // установка заголовка вкладки
+
                         Content = frame // установка содержимого вкладки
                     });
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 connecting.Close();
                 MessageBox.Show("Error" + ex.Message);
             }
         }
-
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -112,7 +119,11 @@ namespace eTOM
         private void Reload_page(object sender, RoutedEventArgs e)
         {
             Clients_table();
+        }
 
+        private void Reload_zayav(object sender, RoutedEventArgs e)
+        {
+            LoadZayav();
         }
 
         private void ClientAdd_click(object sender, RoutedEventArgs e)
@@ -250,6 +261,12 @@ namespace eTOM
             UserLoginWindow userLoginWindow = new UserLoginWindow();
             userLoginWindow.Show();
             Window.GetWindow(this).Close();
+        }
+
+        private void ZayavAdd_click(object sender, RoutedEventArgs e)
+        {
+            ZayavAdd zayavAdd = new ZayavAdd();
+            zayavAdd.Show();
         }
     }
 }

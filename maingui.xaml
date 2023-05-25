@@ -110,10 +110,15 @@
             <TabItem Header="Заявки">
                 <TabItem.Content >
                     <Grid>
-                        <TabControl x:Name="Zayavki" DockPanel.Dock="Top" TabStripPlacement="Left">
+                        <TabControl x:Name="Zayavki" DockPanel.Dock="Top" TabStripPlacement="Left" Margin="0,0,-689,-361">
 
                         </TabControl>
+                        <Canvas>
+                            <Button Content="Перезагрузить" Canvas.Left="290" Canvas.Top="401" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Click="Reload_zayav"  Width="92"></Button>
+                            <Button Content="Добавить" Canvas.Left="22" Canvas.Top="401" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Width="92" Click="ZayavAdd_click"/>
+                        </Canvas>
                     </Grid>
+
                 </TabItem.Content>
             </TabItem>
 
