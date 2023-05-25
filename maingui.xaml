@@ -109,16 +109,25 @@
             </TabItem>
             <TabItem Header="Заявки">
                 <TabItem.Content >
-                    <Grid>
+                    <Grid Height="445" Width="695">
                         <TabControl x:Name="Zayavki" DockPanel.Dock="Top" TabStripPlacement="Left" Margin="0,0,-689,-361">
 
                         </TabControl>
-                        <Canvas>
-                            <Button Content="Перезагрузить" Canvas.Left="290" Canvas.Top="401" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Click="Reload_zayav"  Width="92"></Button>
-                            <Button Content="Добавить" Canvas.Left="22" Canvas.Top="401" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Width="92" Click="ZayavAdd_click"/>
-                        </Canvas>
+                        <Grid>
+                            <Button Content="Перезагрузить" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Click="Reload_zayav"  Width="92" Margin="0,395,0,0"></Button>
+                            <Button Content="Добавить" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="92" Click="ZayavAdd_click" Margin="5,395,0,0"/>
+                        </Grid>
                     </Grid>
 
+                </TabItem.Content>
+            </TabItem>
+            <TabItem Header="Регистрация">
+                <TabItem.Content>
+                    <Grid>
+                        <Frame x:Name="registration">
+                            
+                        </Frame>
+                    </Grid>
                 </TabItem.Content>
             </TabItem>
 

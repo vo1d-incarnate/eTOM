@@ -23,8 +23,10 @@ namespace eTOM
     {
         private string connectPostgre = String.Format("Server=Localhost;Port=5432;User Id=postgres;password=MmV8qd-+1!;Database=eTOM");
         private NpgsqlConnection connect;
-        public ZayavAdd()
+        private int userIdLocal;
+        public ZayavAdd(int userId)
         {
+            userIdLocal = userId;
             connect = new NpgsqlConnection(connectPostgre);
             InitializeComponent();
 
@@ -37,10 +39,9 @@ namespace eTOM
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataTable iDataTable = new DataTable();
                 iAdapter.Fill(iDataTable);
-                connect.Close();
+                
 
                 string[] comboboxItems = new string[iDataTable.Rows.Count];
-
                 for (int i = 0; i < iDataTable.Rows.Count; i++)
                 {
                     comboboxItems[i] = iDataTable.Rows[i][0].ToString();
@@ -49,6 +50,23 @@ namespace eTOM
                 service_choose.ItemsSource = comboboxItems;
 
 
+                string sql1 = @"SELECT contractnumb FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
+                NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connect);
+                cmd1.ExecuteNonQuery();
+                NpgsqlDataAdapter iAdapter1 = new NpgsqlDataAdapter(cmd1);
+                DataTable iDataTable1 = new DataTable();
+                iAdapter1.Fill(iDataTable1);
+
+                string[] comboboxItems1 = new string[iDataTable1.Rows.Count];
+                for (int i = 0; i < iDataTable1.Rows.Count; i++)
+                {
+                    comboboxItems1[i] = iDataTable1.Rows[i][0].ToString();
+                }
+
+
+                client_choose.ItemsSource = comboboxItems1;
+
+                connect.Close();
 
             } catch (Exception ex)
             {
@@ -62,22 +80,32 @@ namespace eTOM
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (comment.Text == null || string.IsNullOrWhiteSpace(comment.Text)) { MessageBox.Show("Введите комментарий"); return; }
+            else if (client_choose.Text == null || string.IsNullOrWhiteSpace(client_choose.Text)) { MessageBox.Show("Выберите клиента"); return; }
 
             try
             {
                 connect.Open();
 
-                string sql = @"SELECT * FROM public." + '\u0022' + "Services" + '\u0022' + " WHERE " + "serv_name=" + '\u0027' + service_choose.Text +'\u0027' + ";";
+                string sql = @"SELECT id FROM public." + '\u0022' + "Services" + '\u0022' + " WHERE " + "serv_name=" + '\u0027' + service_choose.Text +'\u0027' + ";";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connect);
                 cmd.ExecuteNonQuery();
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataTable iDataTable = new DataTable();
                 iAdapter.Fill(iDataTable);
 
-
-                string sql1 = @"INSERT INTO public." + '\u0022' + "Zayavki" + '\u0022' + "(service_id, comment) VALUES (" + '\u0027' + iDataTable.Rows[0][0].ToString() + '\u0027' + ", " + '\u0027' + comment.Text + '\u0027' + ");";
+                string sql1 = @"SELECT id FROM public." + '\u0022' + "Clients" + '\u0022' + " WHERE " + "contractnumb=" + '\u0027' + client_choose.Text + '\u0027' + ";";
                 NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connect);
                 cmd1.ExecuteNonQuery();
+                NpgsqlDataAdapter iAdapter1 = new NpgsqlDataAdapter(cmd1);
+                DataTable iDataTable1 = new DataTable();
+                iAdapter1.Fill(iDataTable1);
+
+
+
+
+                string sql2 = @"INSERT INTO public." + '\u0022' + "Zayavki" + '\u0022' + "(service_id, comment, user_id, client_id) VALUES (" + '\u0027' + iDataTable.Rows[0][0].ToString() + '\u0027' + ", " + '\u0027' + comment.Text + '\u0027' + ", " + '\u0027' + userIdLocal.ToString() + '\u0027' + ", " + '\u0027' + iDataTable1.Rows[0][0].ToString() + '\u0027' + ");";
+                NpgsqlCommand cmd2 = new NpgsqlCommand(sql2, connect);
+                cmd2.ExecuteNonQuery();
                 
                 connect.Close();
                 MessageBox.Show("Данные добавлены");

@@ -20,10 +20,10 @@ namespace eTOM
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(string roles)
+        public MainWindow(string roles, int userId)
         {
             InitializeComponent();
-            MainFrame.Content = new maingui(roles);
+            MainFrame.Content = new maingui(roles, userId);
         }
     }
 }

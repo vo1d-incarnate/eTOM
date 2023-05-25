@@ -80,7 +80,7 @@ namespace eTOM
                     connect.Close();
 
 
-                    MainWindow mainWindow = new MainWindow(iDataSet2.Rows[0][1].ToString());
+                    MainWindow mainWindow = new MainWindow(iDataSet2.Rows[0][1].ToString(), (int)iDataSet.Rows[0][0]);
                     mainWindow.Show();
                     Window.GetWindow(this).Close();
 

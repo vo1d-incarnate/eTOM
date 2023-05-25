@@ -38,13 +38,17 @@
     </Window.Resources>
     <Grid Background="#ffb56b">
         <TextBlock HorizontalAlignment="Left" Margin="60,43,0,0" VerticalAlignment="Top"><Run Language="ru-ru" Text="Тариф"/></TextBlock>
-        <Canvas Width="150" Height="20" Margin="60,64,590,350">
-            <ComboBox x:Name="service_choose" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150">
 
-            </ComboBox>
-        </Canvas>
+        <ComboBox x:Name="service_choose" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="60,63,0,0">
+        </ComboBox>
+
+        <TextBlock HorizontalAlignment="Left" Margin="325,43,0,0" VerticalAlignment="Top"><Run Language="ru-ru" Text="Номер договора клиента"/></TextBlock>
+
+        <ComboBox x:Name="client_choose" HorizontalAlignment="Center" VerticalAlignment="Top" Width="150" Canvas.Left="262" Margin="0,63,0,0">
+        </ComboBox>
         
-        
+
+
         <TextBlock HorizontalAlignment="Left" Margin="60,120,0,0" VerticalAlignment="Top">Комментарий</TextBlock>
         <TextBox x:Name="comment" HorizontalAlignment="Center" Margin="0,136,0,0" VerticalAlignment="Top" Width="680" Height="200"/>
 

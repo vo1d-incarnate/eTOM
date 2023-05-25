@@ -5,17 +5,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:eTOM"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="700"
       Loaded="Page_Loaded"
       Title="Page1">
 
-    <Grid Background="white">
-        <Canvas>
-            <TextBlock x:Name="zayavNumb" Canvas.Left="10" Canvas.Top="10" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center">Заявка № 1111</TextBlock>
-            <TextBlock x:Name="tarif" Canvas.Left="317" Canvas.Top="10" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center">Тариф все все все</TextBlock>
-            <TextBlock x:Name="createdAt" Canvas.Left="671" Canvas.Top="10" FontSize="20">12312312312</TextBlock>
-            <TextBlock x:Name="comment" FontSize="14" Canvas.Left="10" Canvas.Top="42" Height="64" Width="780" HorizontalAlignment="Center" VerticalAlignment="Top">sdfp,poposfmdddddddddddddddddddddddddddddddddddddddddddddddddddddd</TextBlock>
-        </Canvas>
+    <Grid Background="white" Width="700">
+        <Grid>
+            <TextBlock x:Name="zayavNumb" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0">Заявка № 1111</TextBlock>
+            <TextBlock x:Name="tarif" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="194,10,0,0">Тариф все все все</TextBlock>
+            <TextBlock x:Name="contractnumb" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="417,10,0,0" Width="273">Договор №</TextBlock>
+            <TextBlock x:Name="user" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="417,84,0,0" Width="96">Futtd F. F.</TextBlock>
+            <TextBlock x:Name="createdAt" FontSize="20" Margin="417,47,84,371" >12312312312</TextBlock>
+            <TextBlock x:Name="comment" FontSize="14" Height="64" Width="374" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,42,0,0"><Run Text="sdfp,poposfmdddddddddddddddddddddddddddddddddddddddddddffffffffffffffffffdddddddddd "/><LineBreak/><Run Text="dfd"/></TextBlock>
+        </Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="102"></RowDefinition>
@@ -40,7 +42,6 @@
             <Canvas>
                 <Button Content="Перезагрузить" Canvas.Left="348" Canvas.Top="394" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Click="Reload_page"  Width="92"></Button>
                 <Button Content="Добавить" Canvas.Left="22" Canvas.Top="394" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Width="92" Click="ZayavLifelineAdd_click"/>
-                <Button Content="Открыть" Canvas.Left="687" Canvas.Top="394" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Width="92" Click="ZayavLifelineCheck_click"/>
             </Canvas>
         </Grid>
     </Grid>

@@ -31,15 +31,20 @@ namespace eTOM
         private string connectPostgre = String.Format("Server=Localhost;Port=5432;User Id=postgres;password=MmV8qd-+1!;Database=eTOM");
         private NpgsqlConnection connecting;
         private string rolesLocal;
+        private int userIdLocal;
 
-        public maingui(string roles)
+        public maingui(string roles, int userId)
         {
             rolesLocal = roles;
+            userIdLocal = userId;
             MessageBox.Show("Вы вошли с правами: " + roles);
+            Console.WriteLine(userId.ToString());
 
             InitializeComponent();
             connecting = new NpgsqlConnection(connectPostgre);
             LoadZayav();
+
+            registration.Content = new RegistrationPage();
             
         }
 
@@ -101,11 +106,12 @@ namespace eTOM
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataSet iDataSet = new DataSet();
                 iAdapter.Fill(iDataSet, "Clients");
-
+                connecting.Close();
                 //     (services.Columns[4] as DataGridTextColumn).Binding.StringFormat = "dd.MM.yyyy";
                 clients.IsReadOnly = true;
                 clients.DataContext = iDataSet;
 
+                
                 connecting.Close();
 
             }
@@ -265,7 +271,7 @@ namespace eTOM
 
         private void ZayavAdd_click(object sender, RoutedEventArgs e)
         {
-            ZayavAdd zayavAdd = new ZayavAdd();
+            ZayavAdd zayavAdd = new ZayavAdd(userIdLocal);
             zayavAdd.Show();
         }
     }
