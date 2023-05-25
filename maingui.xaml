@@ -107,12 +107,20 @@
                 </TabItem.Content>
 
             </TabItem>
-            <TabItem Header="Маркетинг" ></TabItem>
+            <TabItem Header="Заявки">
+                <TabItem.Content >
+                    <Grid>
+                        <TabControl x:Name="Zayavki" DockPanel.Dock="Top" TabStripPlacement="Left">
+
+                        </TabControl>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
 
         </TabControl>
         <Canvas>
-            <Button  Canvas.Bottom="0" Canvas.Left="0" Width="102" Height="40" Content="Закрыть" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Top"></Button>
-            <Button  Canvas.Bottom="0" Canvas.Left="0" Width="102" Height="40" Content="Выйти" Click="logOut" HorizontalAlignment="Center" Canvas.Top="356" VerticalAlignment="Top"></Button>
+            <Button  Canvas.Bottom="40" Canvas.Left="0" Width="102" Height="40" Content="Выйти" Click="logOut" HorizontalAlignment="Center" VerticalAlignment="Bottom"></Button>
+            <Button  Canvas.Bottom="0" Width="102" Height="40" Content="Закрыть" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
         </Canvas>
 
 

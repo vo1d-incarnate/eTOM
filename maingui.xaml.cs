@@ -1,9 +1,11 @@
 ﻿using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -33,7 +36,39 @@ namespace eTOM
         {
             rolesLocal = roles;
             MessageBox.Show("Вы вошли с правами: " + roles);
+
             InitializeComponent();
+            connecting = new NpgsqlConnection(connectPostgre);
+
+            
+            try {
+                connecting.Open();
+                string sql = @"SELECT * FROM public." + '\u0022' + "Zayavki" + '\u0022' + ";";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+                cmd.ExecuteNonQuery();
+
+                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+                DataTable iDataSet = new DataTable();
+                iAdapter.Fill(iDataSet);
+                connecting.Close();
+
+                for (int i = 0; i < iDataSet.Rows.Count; i++)
+                {
+                    int j = (int)iDataSet.Rows[i][0];
+                    Frame frame = new Frame();
+                    frame.Navigate(new zayavLifeline(j));
+                    Zayavki.Items.Add(new TabItem
+                    {
+                        Header = new TextBlock { Text = "Заявка №" +  j.ToString()}, // установка заголовка вкладки
+                        
+                        Content = frame // установка содержимого вкладки
+                    });
+                }
+            } catch (Exception ex)
+            {
+                connecting.Close();
+                MessageBox.Show("Error" + ex.Message);
+            }
         }
 
 
@@ -104,7 +139,6 @@ namespace eTOM
         {
             try
             {
-                Console.WriteLine("good0");
                 connecting.Open();
                 string sql = @"SELECT name_client, surname, fathername, docnumb, address, telnumb, contractnumb, balance FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);

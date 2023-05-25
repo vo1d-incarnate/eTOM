@@ -164,6 +164,9 @@
     <Compile Include="Marketing.xaml.cs">
       <DependentUpon>Marketing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="zayavLifeline.xaml.cs">
+      <DependentUpon>zayavLifeline.xaml</DependentUpon>
+    </Compile>
     <Compile Include="services.xaml.cs">
       <DependentUpon>services.xaml</DependentUpon>
     </Compile>
@@ -203,6 +206,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Marketing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="zayavLifeline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

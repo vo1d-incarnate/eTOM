@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="ClientAdd" Height="450" Width="800"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
-        ><!---->
+        >
+    <!---->
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -52,7 +53,7 @@
         <TextBox x:Name="name" HorizontalAlignment="Left" Margin="60,50,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
         <TextBox x:Name="surname" HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
         <TextBox x:Name="fatherName" HorizontalAlignment="Left" Margin="540,50,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
-        <TextBox x:Name="address" HorizontalAlignment="Center" Margin="0,136,0,0" VerticalAlignment="Top" Width="680" Height="40"/>
+        <TextBox x:Name="address" HorizontalAlignment="Left" Margin="60,136,0,0" VerticalAlignment="Top" Width="680" Height="40"/>
         <TextBox x:Name="telNumb"  HorizontalAlignment="Left" Margin="60,217,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
 
         <!--<xctk:MaskedTextBox x:Name="telNumb" HorizontalAlignment="Left" Margin="60,217,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" TextAlignment="Center"  FontSize="28" Height="40"
