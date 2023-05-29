@@ -1,5 +1,7 @@
 ﻿using Npgsql;
+using Syncfusion.Windows.Shared;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +20,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace eTOM
@@ -32,6 +36,7 @@ namespace eTOM
         private NpgsqlConnection connecting;
         private string rolesLocal;
         private int userIdLocal;
+        
 
         public maingui(string roles, int userId)
         {
@@ -43,9 +48,18 @@ namespace eTOM
             InitializeComponent();
             connecting = new NpgsqlConnection(connectPostgre);
             LoadZayav();
+            Equipment_table();
 
             registration.Content = new RegistrationPage();
+
+            if (rolesLocal != "ADMIN")
+            {
+                otchet.Visibility = Visibility.Collapsed;
+                otchet1.Visibility = Visibility.Collapsed;
+            }
             
+
+
         }
 
 
@@ -122,6 +136,68 @@ namespace eTOM
             }
         }
 
+        private void Equipment_table()
+        {
+            try
+            {
+                connecting.Open();
+                string sql = @"SELECT id, model, status, client_id FROM public." + '\u0022' + "Equipment" + '\u0022' + ";";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+                DataSet iDataSet = new DataSet();
+                DataTable iDataTable = new DataTable();
+                DataTable iDataTable_out = new DataTable();
+
+                iAdapter.Fill(iDataTable);
+
+                iDataTable_out.Columns.Add("id", typeof(int));
+                iDataTable_out.Columns.Add("model", typeof(string));
+                iDataTable_out.Columns.Add("status", typeof(string));
+                iDataTable_out.Columns.Add("client_id", typeof(string));
+
+                for (int i = 0; i < iDataTable.Rows.Count; i++)
+                {
+                    iDataTable_out.Rows.Add();
+                    iDataTable_out.Rows[i][0] = iDataTable.Rows[i][0];
+                    iDataTable_out.Rows[i][1] = iDataTable.Rows[i][1];
+
+                    if ((bool)iDataTable.Rows[i][2] == false)
+                    {
+                        iDataTable_out.Rows[i][2] = "На складе";
+                    }
+                    else
+                    {
+                        iDataTable_out.Rows[i][2] = "У клиента";
+                    }
+                    if (iDataTable.Rows[i][3] != null && !string.IsNullOrWhiteSpace(iDataTable.Rows[i][3].ToString()) && iDataTable.Rows[i][3].ToString() != "")
+                    {
+                        string sql1 = @"SELECT id, contractnumb FROM public." + '\u0022' + "Clients" + '\u0022' + " WHERE id=" + '\u0027' + iDataTable.Rows[i][3] + '\u0027' + ";";
+                        NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connecting);
+                        NpgsqlDataAdapter iAdapter1 = new NpgsqlDataAdapter(cmd1);
+                        DataTable iDataTable1 = new DataTable();
+                        iAdapter1.Fill(iDataTable1);
+                        iDataTable_out.Rows[i][3] = iDataTable1.Rows[0][1];
+                    }
+                }
+
+                iDataTable_out.TableName = "Equipment"; 
+                iDataSet.Tables.Add(iDataTable_out);
+
+
+                equipment.ItemsSource = iDataSet.Tables[0].DefaultView;
+                equipment.IsReadOnly = true;
+                equipment.DataContext = iDataSet;
+
+                connecting.Close();
+
+            }
+            catch (Exception ex)
+            {
+                connecting.Close();
+                MessageBox.Show("Error" + ex.Message);
+            }
+        }
+
         private void Reload_page(object sender, RoutedEventArgs e)
         {
             Clients_table();
@@ -131,6 +207,10 @@ namespace eTOM
         {
             LoadZayav();
         }
+        private void Reload_equipment(object sender, RoutedEventArgs e)
+        {
+            Equipment_table();
+        }
 
         private void ClientAdd_click(object sender, RoutedEventArgs e)
         {
@@ -138,12 +218,17 @@ namespace eTOM
             clientAdd.Show();
         }
 
+        private void EquipmentAdd_click(object sender, RoutedEventArgs e)
+        {
+            EquipmentAdd equipmentAdd = new EquipmentAdd();
+            equipmentAdd.Show();
+        }
 
         private void Client_edit_click(object sender, RoutedEventArgs e)
         {
 
             DataRowView rowView = clients.SelectedValue as DataRowView;
-            ClientEdit clientEdit = new ClientEdit();
+            ClientEdit clientEdit = new ClientEdit(rolesLocal);
             string idData = rowView[0].ToString();
             clientEdit.idData = idData;
             //   serv_edit.test.Text += rowView[0].ToString();
@@ -151,6 +236,17 @@ namespace eTOM
 
         }
 
+        private void Equipment_edit_click(object sender, RoutedEventArgs e)
+        {
+            DataRowView rowView = equipment.SelectedValue as DataRowView;
+            EquipmentEdit equipmentEdit = new EquipmentEdit(rolesLocal);
+            string idData = rowView[0].ToString();
+            equipmentEdit.idData = idData;
+            equipmentEdit.Show();
+        }
+
+
+        
 
         private void Client_excel(object sender, RoutedEventArgs e)
         {
@@ -213,6 +309,11 @@ namespace eTOM
 
         }
 
+        private void Equipment_excel(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
         private void findClient (object sender, RoutedEventArgs e)
         {
@@ -262,6 +363,60 @@ namespace eTOM
             }
         }
 
+
+        private void findEquipment(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                
+                if (searchParam_equipment.Text == null || string.IsNullOrWhiteSpace(searchParam_equipment.Text)) { MessageBox.Show("Выберите поле для поиска"); return; }
+                else if (searchText_equipment.Text == null || string.IsNullOrWhiteSpace(searchText_equipment.Text)) { MessageBox.Show("Введите данные для поиска"); return; }
+
+                
+                
+
+                DataView dv = new DataView(((DataView)equipment.ItemsSource).ToTable());
+                
+
+
+                //connecting.Open();
+
+                //string sql = null;
+                switch (searchParam_equipment.Text)
+                {
+                    case "Номер":
+                        dv.RowFilter = "id=" + searchText_equipment.Text;
+                        break;
+                    case "Модель":
+                        dv.RowFilter = "model=" + searchText_equipment.Text;
+                        break;
+                    case "Статус":
+                        dv.RowFilter = "status=" + searchText_equipment.Text;
+                        break;
+                    case "Номер договора":
+                        dv.RowFilter = "client_id=" + searchText_equipment.Text;
+                        break;
+                }
+                equipment.ItemsSource = dv;
+                /*
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+                DataSet iDataSet = new DataSet();
+                iAdapter.Fill(iDataSet, "Clients");
+
+                clients.IsReadOnly = true;
+                clients.DataContext = iDataSet;
+
+                connecting.Close();*/
+            }
+            catch (Exception ex)
+            {
+                connecting.Close();
+                MessageBox.Show("Error" + ex.Message);
+            }
+        }
+
+
         private void logOut(object sender, RoutedEventArgs e)
         {
             UserLoginWindow userLoginWindow = new UserLoginWindow();
@@ -274,6 +429,12 @@ namespace eTOM
             ZayavAdd zayavAdd = new ZayavAdd(userIdLocal);
             zayavAdd.Show();
         }
+
+
+
+
+
+
     }
 }
 /*

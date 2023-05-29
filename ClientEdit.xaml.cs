@@ -27,10 +27,17 @@ namespace eTOM
         private string connectPostgre = String.Format("Server=Localhost;Port=5432;User Id=postgres;password=MmV8qd-+1!;Database=eTOM");
         private NpgsqlConnection connect;
         public string idData { get; set; }
-        public ClientEdit()
+        private string rolesLocal;
+        public ClientEdit(string roles)
         {
             //  idData = (string)NavigationService.GetNavigationData(this);
             InitializeComponent();
+            rolesLocal = roles;
+
+            if (roles != "ADMIN")
+            {
+                delete.Visibility = Visibility.Collapsed;
+            }
 
         }
 
@@ -112,7 +119,6 @@ namespace eTOM
 
         private void Data_Upload()
         {
-            // MessageBox.Show(idData);
             try
             {
 

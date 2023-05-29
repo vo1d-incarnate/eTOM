@@ -151,6 +151,12 @@
     <Compile Include="ClientEdit.xaml.cs">
       <DependentUpon>ClientEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EquipmentAdd.xaml.cs">
+      <DependentUpon>EquipmentAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EquipmentEdit.xaml.cs">
+      <DependentUpon>EquipmentEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ListToTextEncodingConverter.cs" />
     <Compile Include="gui.xaml.cs">
       <DependentUpon>gui.xaml</DependentUpon>
@@ -184,6 +190,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ClientEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EquipmentAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EquipmentEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
