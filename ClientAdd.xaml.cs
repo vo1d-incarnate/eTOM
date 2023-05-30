@@ -33,7 +33,6 @@ namespace eTOM
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
             if (name == null || string.IsNullOrWhiteSpace(name.Text)) { MessageBox.Show("Введите имя"); return; } 
             else if (surname == null || string.IsNullOrWhiteSpace(surname.Text)) { MessageBox.Show("Введите фамилию"); return; }
             else if (address == null || string.IsNullOrWhiteSpace(address.Text)) { MessageBox.Show("Введите адрес"); return; }
@@ -46,15 +45,13 @@ namespace eTOM
             {
                 if (MessageBox.Show("Вы уверены, что хотите добавить клиента?", "Клиент добавлен", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    //  string channelsVar = "true";
-                    // string priceBack = price.Text.Remove(price.Text.LastIndexOf(@","));
-                    // string speedBack = speed.Text.Remove(speed.Text.LastIndexOf(@" "));
                     connect.Open();
 
                     string sql = @"INSERT INTO public." + '\u0022' + "Clients" + '\u0022' + "(name_client, surname, fathername, address, telnumb, docnumb) VALUES (" + '\u0027' + name.Text + '\u0027' + ", " + '\u0027' + surname.Text + '\u0027' + ", " + '\u0027' + fatherName.Text + '\u0027' + ", " + '\u0027' + address.Text + '\u0027' + ", " + '\u0027' + telNumb.Text + '\u0027' + ", " + '\u0027' + docNumb.Text + '\u0027' + ");";
                     NpgsqlCommand cmd = new NpgsqlCommand(sql, connect);
                     cmd.ExecuteNonQuery();
                     connect.Close();
+
                     MessageBox.Show("Данные добавлены");
                     this.Close();
                 }

@@ -114,20 +114,15 @@ namespace eTOM
             try
             {
                 connecting.Open();
-                string sql = @"SELECT id, name_client, surname, fathername, contractnumb, address
-	FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
+                string sql = @"SELECT id, name_client, surname, fathername, contractnumb, address FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataSet iDataSet = new DataSet();
                 iAdapter.Fill(iDataSet, "Clients");
                 connecting.Close();
-                //     (services.Columns[4] as DataGridTextColumn).Binding.StringFormat = "dd.MM.yyyy";
+                
                 clients.IsReadOnly = true;
                 clients.DataContext = iDataSet;
-
-                
-                connecting.Close();
-
             }
             catch (Exception ex)
             {
@@ -258,11 +253,7 @@ namespace eTOM
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataSet iDataSet = new DataSet();
                 iAdapter.Fill(iDataSet, "Clients");
-                //       services.IsReadOnly = true;
-                //     services.DataContext = iDataSet;
-
                 connecting.Close();
-
 
                 DataTable ct = iDataSet.Tables[0];
 
@@ -277,7 +268,6 @@ namespace eTOM
                 sheet.Cells[1, 6] = "Номер телефона";
                 sheet.Cells[1, 7] = "Номер договора";
                 sheet.Cells[1, 8] = "Баланс";
-
 
                 Excel.Range range = sheet.Range[sheet.Cells[2, 1], sheet.Cells[ct.Rows.Count, ct.Columns.Count]];
 
@@ -319,10 +309,8 @@ namespace eTOM
         {
             try
             {
-                //string searchParamBack = searchParam.Text.Remove(searchParam.Text.LastIndexOf(@" "));
                 if (searchParam.Text == null || string.IsNullOrWhiteSpace(searchParam.Text)) { MessageBox.Show("Выберите поле для поиска"); return; }
                 else  if (searchText.Text == null || string.IsNullOrWhiteSpace(searchText.Text)) { MessageBox.Show("Введите данные для поиска"); return; }
-
 
                 connecting.Open();
 
@@ -346,16 +334,14 @@ namespace eTOM
                         break;
                 }
 
-
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataSet iDataSet = new DataSet();
                 iAdapter.Fill(iDataSet, "Clients");
+                connecting.Close();
 
                 clients.IsReadOnly = true;
                 clients.DataContext = iDataSet;
-
-                connecting.Close();
             } catch (Exception ex)
             {
                 connecting.Close();
