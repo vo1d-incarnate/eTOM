@@ -89,6 +89,8 @@ namespace eTOM
 
                         Content = frame // установка содержимого вкладки
                     });
+
+
                 }
             }
             catch (Exception ex)

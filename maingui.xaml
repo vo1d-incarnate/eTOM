@@ -58,7 +58,7 @@
 
             <TabItem x:Name="tabItem" Header="Клиенты">
                 <TabItem.Content>
-                    <Grid>
+                    <Grid Height="445">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="60"></RowDefinition>
                             <RowDefinition Height="295"></RowDefinition>
@@ -89,29 +89,51 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <Canvas>
-                            <Button Content="Перезагрузить" Canvas.Left="290" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Click="Reload_page"  Width="92"></Button>
-                            <Button Content="Добавить" Canvas.Left="22" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Width="92" Click="ClientAdd_click"/>
-                            <Button x:Name="otchet" Content="Создать отчет" Canvas.Left="580" Canvas.Top="364" Height="40" Click="Client_excel"  Width="92" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <ComboBox Name="searchParam" IsEditable="False" IsReadOnly="True" Canvas.Left="241" Canvas.Top="19" HorizontalAlignment="Left" VerticalAlignment="Center" Width="141">
+                        <Grid Margin="0,0,0,-80" Grid.RowSpan="3">
+                            <Button Content="Перезагрузить" Height="40" VerticalAlignment="Top" Click="Reload_page" Margin="297,385,297,0"/>
+                            <Button Content="Добавить" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="92" Click="ClientAdd_click" Margin="24,385,0,0"/>
+                            <Button x:Name="otchet" Content="Создать отчет"  Height="40" Click="Client_excel" VerticalAlignment="Top" Margin="0,385,38,0" HorizontalAlignment="Right" Width="92"/>
+                            <ComboBox Name="searchParam" IsEditable="False" IsReadOnly="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="98,10,0,0">
                                 <ComboBoxItem Content="Имя"></ComboBoxItem>
                                 <ComboBoxItem Content="Фамилия"></ComboBoxItem>
                                 <ComboBoxItem Content="Отчество"></ComboBoxItem>
                                 <ComboBoxItem Content="Номер договора"></ComboBoxItem>
                                 <ComboBoxItem Content="Адрес"></ComboBoxItem>
                             </ComboBox>
-                            <TextBox x:Name="searchText" Canvas.Left="397" Canvas.Top="21" HorizontalAlignment="Left" VerticalAlignment="Center" Width="140"></TextBox>
-                            <Button Content="Поиск" Click="findClient" Canvas.Left="554" Canvas.Top="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65"></Button>
-                        </Canvas>
+                            <TextBox x:Name="searchText"  HorizontalAlignment="Center" VerticalAlignment="Top" Width="140" Margin="0,10,0,0" Height="22"></TextBox>
+                            <Button Content="Поиск" Click="findClient"  Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" Width="66" Margin="444,10,0,0"></Button>
+                        </Grid>
                     </Grid>
                 </TabItem.Content>
 
             </TabItem>
             <TabItem Header="Заявки">
                 <TabItem.Content >
-                    <Grid Height="445" Width="695">
-                        <TabControl x:Name="Zayavki" DockPanel.Dock="Top" TabStripPlacement="Left" Margin="0,0,-689,-361">
-
+                    <Grid>
+                        <TabControl x:Name="Zayavki" DockPanel.Dock="Top" TabStripPlacement="Left" Margin="0,0,0,60">
+                            <TabControl.Template>
+                                <ControlTemplate TargetType="TabControl">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <ScrollViewer HorizontalScrollBarVisibility="Hidden"  VerticalScrollBarVisibility="Visible" >
+                                            <TabPanel x:Name="HeaderPanel"
+                          Panel.ZIndex ="1" 
+                          KeyboardNavigation.TabIndex="1"
+                          Grid.Column="0"
+                          Grid.Row="0"
+                          Margin="2,2,2,0"
+                          IsItemsHost="true"/>
+                                        </ScrollViewer>
+                                        <ContentPresenter x:Name="PART_SelectedContentHost"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      Margin="{TemplateBinding Padding}"
+                                      ContentSource="SelectedContent" Grid.Column="1"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </TabControl.Template>
                         </TabControl>
                         <Grid>
                             <Button Content="Перезагрузить" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Click="Reload_zayav"  Width="92" Margin="0,395,0,0"></Button>
@@ -140,7 +162,7 @@
                                 <DataGridTextColumn Header="Модель" Width="*" Binding="{Binding Path=model}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Статус" Width="*" Binding="{Binding Path=status}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Номер договора" Width="*" Binding="{Binding Path=client_id}" ElementStyle="{StaticResource WrapText}" ></DataGridTextColumn>
-                               
+
                                 <DataGridTemplateColumn Header="Действие" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -168,22 +190,22 @@
                     </Grid>
                 </TabItem.Content>
             </TabItem>
-            
+
             <TabItem Header="Регистрация">
                 <TabItem.Content>
                     <Grid>
                         <Frame x:Name="registration">
-                            
+
                         </Frame>
                     </Grid>
                 </TabItem.Content>
             </TabItem>
 
         </TabControl>
-        <Canvas>
-            <Button  Canvas.Bottom="40" Canvas.Left="0" Width="102" Height="40" Content="Выйти" Click="logOut" HorizontalAlignment="Center" VerticalAlignment="Bottom"></Button>
-            <Button  Canvas.Bottom="0" Width="102" Height="40" Content="Закрыть" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-        </Canvas>
+        <Grid Margin="0,246,692,0">
+            <Button   Width="102" Content="Выйти" Click="logOut" HorizontalAlignment="Center" Margin="0,0,0,55" Height="40" VerticalAlignment="Bottom"/>
+            <Button   Width="102" Content="Закрыть" Click="Button_Click" HorizontalAlignment="Center" Margin="0,0,0,10" Height="40" VerticalAlignment="Bottom" />
+        </Grid>
 
 
         <Image Width="250" Height="150"
