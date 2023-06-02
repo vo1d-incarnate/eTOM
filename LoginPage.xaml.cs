@@ -101,6 +101,12 @@ namespace eTOM
 
         }
 
-
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                logIn(sender, e);
+            }
+        }
     }
 }

@@ -40,7 +40,6 @@ namespace eTOM
                 DataTable iDataTable = new DataTable();
                 iAdapter.Fill(iDataTable);
                 
-
                 string[] comboboxItems = new string[iDataTable.Rows.Count];
                 for (int i = 0; i < iDataTable.Rows.Count; i++)
                 {
@@ -48,7 +47,6 @@ namespace eTOM
                 }
                 
                 service_choose.ItemsSource = comboboxItems;
-
 
                 string sql1 = @"SELECT contractnumb FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
                 NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connect);
@@ -62,7 +60,6 @@ namespace eTOM
                 {
                     comboboxItems1[i] = iDataTable1.Rows[i][0].ToString();
                 }
-
 
                 client_choose.ItemsSource = comboboxItems1;
 
@@ -100,9 +97,6 @@ namespace eTOM
                 DataTable iDataTable1 = new DataTable();
                 iAdapter1.Fill(iDataTable1);
 
-
-
-
                 string sql2 = @"INSERT INTO public." + '\u0022' + "Zayavki" + '\u0022' + "(service_id, comment, user_id, client_id) VALUES (" + '\u0027' + iDataTable.Rows[0][0].ToString() + '\u0027' + ", " + '\u0027' + comment.Text + '\u0027' + ", " + '\u0027' + userIdLocal.ToString() + '\u0027' + ", " + '\u0027' + iDataTable1.Rows[0][0].ToString() + '\u0027' + ");";
                 NpgsqlCommand cmd2 = new NpgsqlCommand(sql2, connect);
                 cmd2.ExecuteNonQuery();
@@ -120,12 +114,14 @@ namespace eTOM
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
+            service_choose.Text = null;
+            client_choose.Text = null;
+            comment.Text = string.Empty;
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 }

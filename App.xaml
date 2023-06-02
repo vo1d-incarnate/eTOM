@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:eTOM"
              StartupUri="UserLoginWindow.xaml">
     <Application.Resources>
-         
+         <!--
         <LinearGradientBrush x:Key="TabItem.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
             <GradientStop Color="#ECF4FC" Offset="0.0"/>
             <GradientStop Color="#DCECFC" Offset="1.0"/>
@@ -184,6 +184,160 @@
                     <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
                 </MultiDataTrigger>
             </ControlTemplate.Triggers>
-        </ControlTemplate>
+        </ControlTemplate>-->
+        <FontFamily x:Key="NewsCycle">/eTOM;component/resources/NewsCycle-Regular.ttf#News Cycle</FontFamily>
+        <Style x:Key="WindowStyle" TargetType="Window">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="#2C4370"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabControl">
+            <Setter Property="FontFamily" Value="{StaticResource NewsCycle}"/>
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="resources\background.jpg"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Background" Value="#2C4370" />
+            <Setter Property="Foreground" Value="#FFF9F3" />
+            <Setter Property="GridLinesVisibility" Value="All" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#2C4370" />
+            <Setter Property="VerticalGridLinesBrush" Value="#2C4370" />
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Background" Value="#FFF9F3"/>
+            <Setter Property="Foreground" Value="#2C4370"/>
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#2C4370"/>
+            <Setter Property="Foreground" Value="#FFF9F3"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+
+        </Style>
+        <Style TargetType="DataGridRowHeader">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style TargetType="ScrollViewer">
+            <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="#FFF9F3"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+        </Style>
+        <Style x:Key="InputBox"  TargetType="TextBox">
+            <Setter Property="Foreground" Value="#2C4370"></Setter>
+        </Style>
+        <Style x:Key="TextBoxModule" TargetType="TextBox">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Background" Value="#117B8E"/>
+            <Setter Property="Foreground" Value="#FFF9F3"/>
+            <Setter Property="CaretBrush" Value="#FFF9F3" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="46"/>
+            <Setter Property="FontFamily" Value="{StaticResource NewsCycle}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="20">
+                            <TextBox Text="{TemplateBinding Text}" 
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Padding="5"
+                         Background="Transparent"
+                         BorderBrush="Transparent"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="Header"  TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FFF9F3"/>
+            <Setter Property="FontFamily" Value="{StaticResource NewsCycle}" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="Forecast"  TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FFF9F3"/>
+            <Setter Property="FontFamily" Value="{StaticResource NewsCycle}" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+        <Style x:Key="TextBoxModuleSecond" TargetType="TextBox">
+            <Setter Property="Background" Value="#117B8E"/>
+            <Setter Property="Foreground" Value="#FFF9F3"/>
+            <Setter Property="CaretBrush" Value="#FFF9F3" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontFamily" Value="{StaticResource NewsCycle}" />
+            <!-- <Setter Property="Padding" Value="50,0,10,0"/> -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="20">
+                            <TextBox Text="{TemplateBinding Text}" 
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Padding="5"
+                         Background="Transparent"
+                         BorderBrush="Transparent"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#117B8E"/>
+            <Setter Property="Foreground" Value="#FFF9F3"/>
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Width" Value="90" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontFamily" Value="{StaticResource NewsCycle}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SecondWindowButton" TargetType="Button">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="40"/>
+        </Style>
+
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0, -1, 0, 0"/>
+        </Style>
     </Application.Resources>
 </Application>

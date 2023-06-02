@@ -9,40 +9,38 @@
       Loaded="Page_Loaded"
       Title="Page1">
 
-    <Grid Background="white" Width="700">
-        <Grid>
-            <TextBlock x:Name="zayavNumb" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0">Заявка № 1111</TextBlock>
-            <TextBlock x:Name="tarif" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="194,10,0,0">Тариф все все все</TextBlock>
-            <TextBlock x:Name="contractnumb" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="417,10,0,0" Width="273">Договор №</TextBlock>
-            <TextBlock x:Name="user" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="417,84,0,0" Width="96">Futtd F. F.</TextBlock>
-            <TextBlock x:Name="createdAt" FontSize="20" Margin="417,47,84,371" >12312312312</TextBlock>
-            <TextBlock x:Name="comment" FontSize="14" Height="64" Width="374" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,42,0,0"><Run Text="sdfp,poposfmdddddddddddddddddddddddddddddddddddddddddddffffffffffffffffffdddddddddd "/><LineBreak/><Run Text="dfd"/></TextBlock>
-        </Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="102"></RowDefinition>
-                <RowDefinition Height="179"></RowDefinition>
-                <RowDefinition Height="74"/>
-                <RowDefinition Height="0*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <DataGrid Background="#ffb56b" AutoGenerateColumns="False"  Grid.Row="1" x:Name="Zayav_lifeline" ItemsSource="{Binding Path=Zayav_lifeline}" CanUserResizeRows="False" Grid.RowSpan="3" Margin="0,18,0,-18" >
-                <DataGrid.Resources>
-                    <Style TargetType="TextBlock" x:Key="WrapText">
-                        <Setter Property="TextWrapping" Value="Wrap"/>
-                    </Style>
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-
-                    <DataGridTextColumn Header="Номер заявки" Width="*" Binding="{Binding Path=id}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Комментарий" Width="*" Binding="{Binding Path=comment}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Дата" Width="*" Binding="{Binding Path=created_at, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" ></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <Canvas>
-                <Button Content="Перезагрузить" Canvas.Left="348" Canvas.Top="394" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Click="Reload_page"  Width="92"></Button>
-                <Button Content="Добавить" Canvas.Left="22" Canvas.Top="394" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Width="92" Click="ZayavLifelineAdd_click"/>
-            </Canvas>
-        </Grid>
+    <Grid Background="#117B8E" Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*" MinHeight="36"></RowDefinition>
+            <RowDefinition Height="0.15*" MinHeight="36"></RowDefinition>
+            <RowDefinition Height="0.15*" MinHeight="36"></RowDefinition>
+            <RowDefinition Height="1*" ></RowDefinition>
+            <RowDefinition Height="0.2*" MinHeight="44"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width ="0.6*"></ColumnDefinition>
+            <ColumnDefinition Width ="0.7*"></ColumnDefinition>
+            <ColumnDefinition Width ="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Style="{StaticResource Header}" x:Name="zayavNumb" FontSize="20" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Заявка № 1111</TextBlock>
+        <TextBlock Style="{StaticResource Forecast}" x:Name="tarif" FontSize="20" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">Тариф все все все</TextBlock>
+        <TextBlock Style="{StaticResource Forecast}" x:Name="contractnumb" FontSize="20" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Договор №</TextBlock>
+        <TextBlock Style="{StaticResource Forecast}" x:Name="comment" FontSize="14" Margin="2,2,2,2" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"><Run Text="sdfp,poposfmdddddddddddddddddddddddddddddddddddddddddddffffffffffffffffffdddddddddd "/><LineBreak/><Run Text="dfd"/></TextBlock>
+        <TextBlock Style="{StaticResource Forecast}" x:Name="createdAt" FontSize="20" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">12312312312</TextBlock>
+        <TextBlock Style="{StaticResource Forecast}" x:Name="user" FontSize="20" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Futtd F. F.</TextBlock>
+        <DataGrid AutoGenerateColumns="False" x:Name="Zayav_lifeline" ItemsSource="{Binding Path=Zayav_lifeline}" CanUserResizeRows="False"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+            <DataGrid.Resources>
+                <Style TargetType="TextBlock" x:Key="WrapText">
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер заявки" Width="*" Binding="{Binding Path=id}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Комментарий" Width="*" Binding="{Binding Path=comment}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата" Width="*" Binding="{Binding Path=created_at, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" ></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Background="#2C4370" Content="Добавить" Click="ZayavLifelineAdd_click" Grid.Row="4" Grid.Column="0" Margin="0, 2, 0, 2"/>
+        <Button Background="#2C4370" Content="Перезагрузить" Click="Reload_page" Width="100" Grid.Row="4" Grid.Column="1" Margin="0, 2, 0, 2"/>
     </Grid>
 </Page>

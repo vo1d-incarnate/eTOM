@@ -4,9 +4,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:eTOM"
-      
-      xmlns:converters="clr-namespace:eTOM"
-      
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Loaded="Page_Loaded"
@@ -16,9 +13,9 @@
         <Style  TargetType="{x:Type TabItem}">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Margin" Value="-2,-2,0,2"></Setter>
-            <Setter Property="Foreground" Value="#ffb56b"/>
-            <Setter Property="Background" Value="#CC7218"/>
-            <Setter Property="BorderBrush" Value="#CC7218"/>
+            <Setter Property="Foreground" Value="#FFF9F3"/>
+            <Setter Property="Background" Value="#2C4370"/>
+            <Setter Property="BorderBrush" Value="#2C4370"/>
             <Setter Property="MinHeight" Value="40"/>
             <Setter Property="MinWidth" Value="100"/>
             <Setter Property="MaxHeight" Value="80"/>
@@ -33,38 +30,50 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Foreground" Value="#CC7218"/>
-                                <Setter Property="Background" Value="#ffb56b"/>
-                                <Setter Property="BorderBrush" Value="#ffb56b"/>
+                                <Setter Property="Foreground" Value="#FFF9F3"/>
+                                <Setter Property="Background" Value="#117B8E"/>
+                                <Setter Property="BorderBrush" Value="#117B8E"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
-
-
                 </Setter.Value>
             </Setter>
-
         </Style>
-
-
-        <local:SampleData x:Key="SampleData"/>
-        <converters:ListToTextEncodingConverter x:Key="ListToTextEncodingConverter"/>
     </Page.Resources>
 
-    <Grid Background="#CC7218">
-
-
-        <TabControl DockPanel.Dock="Top" Background="#ffb56b" BorderBrush="#ffb56b" TabStripPlacement="Left"  x:Name="TabControl">
-
-            <TabItem x:Name="tabItem" Header="Клиенты">
+    <Grid Background="#2C4370">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="92"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width ="106"></ColumnDefinition>
+            <ColumnDefinition Width ="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TabControl DockPanel.Dock="Top" BorderBrush="#2C4370" TabStripPlacement="Left" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" x:Name="TabControl">
+            <TabItem x:Name="Clients" Header="Клиенты">
                 <TabItem.Content>
-                    <Grid Height="445">
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="60"></RowDefinition>
-                            <RowDefinition Height="295"></RowDefinition>
-                            <RowDefinition Height="0*"></RowDefinition>
+                            <RowDefinition Height="0.3*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="5*"></RowDefinition>
+                            <RowDefinition Height="5"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <DataGrid Background="#ffb56b" AutoGenerateColumns="False"  Grid.Row="1" x:Name="clients" ItemsSource="{Binding Path=Clients}" CanUserResizeRows="False" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width ="*"></ColumnDefinition>
+                            <ColumnDefinition Width ="1.2*"></ColumnDefinition>
+                            <ColumnDefinition Width ="1.2*"></ColumnDefinition>
+                            <ColumnDefinition Width ="*"></ColumnDefinition>
+                            <ColumnDefinition Width ="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.ColumnSpan="5" Grid.Row="2" Text="Клиенты" Foreground="#2C4370"  Background="#FFF9F3" FontSize="24"/>
+                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="Выберите параметр:"/>
+                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Text="Введите значение:"/>
+                        <DataGrid Background="#2C4370" Grid.ColumnSpan="5" Grid.Row="3" AutoGenerateColumns="False" x:Name="clients" ItemsSource="{Binding Path=Clients}" CanUserResizeRows="False" >
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -81,7 +90,7 @@
                                 <DataGridTemplateColumn Header="Действие" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Click="Client_edit_click">Подробнее</Button>
+                                            <Button Margin="0,2,0,2"  Background="#2C4370" Foreground="#FFF9F3" Click="Client_edit_click">Подробнее</Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
 
@@ -89,56 +98,63 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <Grid Margin="0,0,0,-80" Grid.RowSpan="3">
-                            <Button Content="Перезагрузить" Height="40" VerticalAlignment="Top" Click="Reload_page" Margin="297,385,297,0"/>
-                            <Button Content="Добавить" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="92" Click="ClientAdd_click" Margin="24,385,0,0"/>
-                            <Button x:Name="otchet" Content="Создать отчет"  Height="40" Click="Client_excel" VerticalAlignment="Top" Margin="0,385,38,0" HorizontalAlignment="Right" Width="92"/>
-                            <ComboBox Name="searchParam" IsEditable="False" IsReadOnly="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="98,10,0,0">
-                                <ComboBoxItem Content="Имя"></ComboBoxItem>
-                                <ComboBoxItem Content="Фамилия"></ComboBoxItem>
-                                <ComboBoxItem Content="Отчество"></ComboBoxItem>
-                                <ComboBoxItem Content="Номер договора"></ComboBoxItem>
-                                <ComboBoxItem Content="Адрес"></ComboBoxItem>
-                            </ComboBox>
-                            <TextBox x:Name="searchText"  HorizontalAlignment="Center" VerticalAlignment="Top" Width="140" Margin="0,10,0,0" Height="22"></TextBox>
-                            <Button Content="Поиск" Click="findClient"  Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" Width="66" Margin="444,10,0,0"></Button>
-                        </Grid>
+                        <Button Content="Перезагрузить" Margin="2,0,0,0" Grid.Column="2"  Grid.Row="5" Height="40" Width="100" VerticalAlignment="Top" Click="Reload_page" />
+                        <Button Margin="0,5,0,5" Width="90" Height="40" Grid.RowSpan="2"  HorizontalAlignment="Left"  VerticalAlignment="Top" Content="Добавить" Click="ClientAdd_click" />
+                        <Button x:Name="otchet" Content="Создать отчет" Click="Client_excel" Margin="2,0,0,0" Grid.Column="4"  Grid.Row="5" Width="90"/>
+                        <ComboBox Name="searchParam" IsEditable="False" IsReadOnly="True" Grid.Row="1" Height="20"  Width="140" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,5" VerticalAlignment="Center">
+                            <ComboBoxItem Content="Имя"></ComboBoxItem>
+                            <ComboBoxItem Content="Фамилия"></ComboBoxItem>
+                            <ComboBoxItem Content="Отчество"></ComboBoxItem>
+                            <ComboBoxItem Content="Номер договора"></ComboBoxItem>
+                            <ComboBoxItem Content="Адрес"></ComboBoxItem>
+                        </ComboBox>
+                        <TextBox x:Name="searchText" Grid.Column="2" Grid.Row="1" Margin="0,0,0,5" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="150" Style="{StaticResource InputBox}"/>
+                        <Button Content="Поиск" Click="findClient" Margin="2,0,0,0" Grid.Column="3" Grid.RowSpan="2" HorizontalAlignment="Center"/>
                     </Grid>
                 </TabItem.Content>
-
             </TabItem>
             <TabItem Header="Заявки">
                 <TabItem.Content >
                     <Grid>
-                        <TabControl x:Name="Zayavki" DockPanel.Dock="Top" TabStripPlacement="Left" Margin="0,0,0,60">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="85"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TabControl x:Name="Zayavki" DockPanel.Dock="Top" TabStripPlacement="Left" Margin="0,0,0,2" Grid.Row="0">
                             <TabControl.Template>
                                 <ControlTemplate TargetType="TabControl">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <ScrollViewer HorizontalScrollBarVisibility="Hidden"  VerticalScrollBarVisibility="Visible" >
                                             <TabPanel x:Name="HeaderPanel"
                           Panel.ZIndex ="1" 
                           KeyboardNavigation.TabIndex="1"
                           Grid.Column="0"
-                          Grid.Row="0"
                           Margin="2,2,2,0"
                           IsItemsHost="true"/>
                                         </ScrollViewer>
                                         <ContentPresenter x:Name="PART_SelectedContentHost"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                      Margin="{TemplateBinding Padding}"
-                                      ContentSource="SelectedContent" Grid.Column="1"/>
+                                      Margin="4,0,2,0"
+                                      ContentSource="SelectedContent" Grid.Column="1" />
                                     </Grid>
                                 </ControlTemplate>
                             </TabControl.Template>
                         </TabControl>
-                        <Grid>
-                            <Button Content="Перезагрузить" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Click="Reload_zayav"  Width="92" Margin="0,395,0,0"></Button>
-                            <Button Content="Добавить" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="92" Click="ZayavAdd_click" Margin="5,395,0,0"/>
+
+                        <Grid Grid.Row="1" HorizontalAlignment="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="42.5"></RowDefinition>
+                                <RowDefinition Height="42.5"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Button Content="Добавить" Click="ZayavAdd_click" Grid.Row="0"/>
+                            <Button Content="Перезагрузить"  Width="100" Click="Reload_zayav" Grid.Row="1"></Button>
                         </Grid>
+                        
+                        
                     </Grid>
 
                 </TabItem.Content>
@@ -147,11 +163,26 @@
                 <TabItem.Content>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="60"></RowDefinition>
-                            <RowDefinition Height="295"></RowDefinition>
-                            <RowDefinition Height="0*"></RowDefinition>
+                                <RowDefinition Height="0.3*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="5*"></RowDefinition>
+                                <RowDefinition Height="5"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <DataGrid Background="#ffb56b" AutoGenerateColumns="False"  Grid.Row="1" x:Name="equipment" ItemsSource="{Binding Path=Equipment}" CanUserResizeRows="False" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width ="*"></ColumnDefinition>
+                            <ColumnDefinition Width ="1.2*"></ColumnDefinition>
+                            <ColumnDefinition Width ="1.2*"></ColumnDefinition>
+                            <ColumnDefinition Width ="*"></ColumnDefinition>
+                            <ColumnDefinition Width ="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.ColumnSpan="5" Grid.Row="2" Text="Оборудование" Foreground="#2C4370"  Background="#FFF9F3" FontSize="24"/>
+                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="Выберите параметр:"/>
+                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Text="Введите значение:"/>
+
+                        <DataGrid AutoGenerateColumns="False" Grid.ColumnSpan="5" Grid.Row="3" x:Name="equipment" ItemsSource="{Binding Path=Equipment}" CanUserResizeRows="False" >
                             <DataGrid.Resources>
                                 <Style TargetType="TextBlock" x:Key="WrapText">
                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -173,24 +204,22 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-
-                        <Canvas>
-                            <Button Content="Перезагрузить" Canvas.Left="290" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Click="Reload_equipment"  Width="92"></Button>
-                            <Button Content="Добавить" Canvas.Left="22" Canvas.Top="364" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Width="92" Click="EquipmentAdd_click"/>
-                            <Button x:Name="otchet1" Content="Создать отчет" Canvas.Left="580" Canvas.Top="364" Height="40" Click="Equipment_excel"  Width="92" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <ComboBox Name="searchParam_equipment" IsEditable="False" IsReadOnly="True" Canvas.Left="241" Canvas.Top="19" HorizontalAlignment="Left" VerticalAlignment="Center" Width="141">
-                                <ComboBoxItem Content="Номер"></ComboBoxItem>
-                                <ComboBoxItem Content="Модель"></ComboBoxItem>
-                                <ComboBoxItem Content="Статус"></ComboBoxItem>
-                                <ComboBoxItem Content="Номер договора"></ComboBoxItem>
-                            </ComboBox>
-                            <TextBox x:Name="searchText_equipment" Canvas.Left="397" Canvas.Top="21" HorizontalAlignment="Left" VerticalAlignment="Center" Width="140"></TextBox>
-                            <Button Content="Поиск" Click="findEquipment" Canvas.Left="554" Canvas.Top="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65"></Button>
-                        </Canvas>
+                        <Button Content="Перезагрузить" Margin="2,0,0,0" Grid.Column="2"  Grid.Row="5" Height="40" Width="100" VerticalAlignment="Top" Click="Reload_equipment"></Button>
+                        <Button  Margin="0,5,0,5" Width="90" Height="40" Grid.RowSpan="2"  HorizontalAlignment="Left"  VerticalAlignment="Top" Content="Добавить" Click="EquipmentAdd_click"/>
+                        <Button x:Name="otchet1" Content="Создать отчет" Click="Equipment_excel"  Margin="2,0,0,0" Grid.Column="4"  Grid.Row="5" Width="90"/>
+                        <ComboBox Name="searchParam_equipment" IsEditable="False" IsReadOnly="True" Grid.Row="1" Height="20"  Width="140" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,5" VerticalAlignment="Center">
+                            <ComboBoxItem Content="Номер"></ComboBoxItem>
+                            <ComboBoxItem Content="Модель"></ComboBoxItem>
+                            <ComboBoxItem Content="Статус"></ComboBoxItem>
+                            <ComboBoxItem Content="Номер договора"></ComboBoxItem>
+                        </ComboBox>
+                        <TextBox x:Name="searchText_equipment" Grid.Column="2" Grid.Row="1" Margin="0,0,0,5" HorizontalAlignment="Center" Height="20" VerticalAlignment="Center" Width="150" Style="{StaticResource InputBox}"></TextBox>
+                        <Button Content="Поиск" Click="findEquipment" Margin="2,0,0,0" Grid.Column="3" Grid.RowSpan="2" HorizontalAlignment="Center"></Button>
                     </Grid>
                 </TabItem.Content>
             </TabItem>
-
+            <TabItem Header="Поставщики"></TabItem>
+            <TabItem Header="Статистика"></TabItem>
             <TabItem Header="Регистрация">
                 <TabItem.Content>
                     <Grid>
@@ -200,19 +229,15 @@
                     </Grid>
                 </TabItem.Content>
             </TabItem>
-
+            
         </TabControl>
-        <Grid Margin="0,246,692,0">
-            <Button   Width="102" Content="Выйти" Click="logOut" HorizontalAlignment="Center" Margin="0,0,0,55" Height="40" VerticalAlignment="Bottom"/>
-            <Button   Width="102" Content="Закрыть" Click="Button_Click" HorizontalAlignment="Center" Margin="0,0,0,10" Height="40" VerticalAlignment="Bottom" />
+        <Grid Grid.Column="0" Grid.Row="1" Margin="0,4,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"></RowDefinition>
+                <RowDefinition Height="44"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Margin="6,2,6,2" Width="90" Content="Выйти" Click="logOut" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center"/>
+            <Button  Grid.Row="1" Margin="6,2,6,2" Width="90" Content="Закрыть" Click="Button_Click" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" />
         </Grid>
-
-
-        <Image Width="250" Height="150"
-               Source="{Binding Source={StaticResource SampleData}, 
-                                Converter={StaticResource ListToTextEncodingConverter},
-                                ConverterParameter='http://chart.apis.google.com/chart?cht=lc&amp;chs=250x150&amp;chds=0,30'}" Margin="-449,171,999,129"/>
     </Grid>
-
-
 </Page>

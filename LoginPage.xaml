@@ -48,12 +48,12 @@
     </Page.Resources>
 
     <Grid Background="#CC7218">
-        <Canvas Background="#ffb56b" Margin="186,60,186,60">
+        <Canvas Background="#ffb56b" Margin="186,60,186,60" FocusManager.FocusedElement="{Binding ElementName=password}">
             <TextBlock Canvas.Left="124" Canvas.Top="10" FontSize="30">Авторизация</TextBlock>
             <TextBlock Canvas.Left="114" Canvas.Top="82">Логин</TextBlock>
             <TextBlock Canvas.Left="114" Canvas.Top="144">Пароль</TextBlock>
-            <TextBox x:Name="login"  Width="200" Height="30" Canvas.Left="114" Canvas.Top="103" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox x:Name="password"  Width="200" Height="30" Canvas.Left="114" Canvas.Top="165" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <TextBox Style="{StaticResource InputBox}" x:Name="login"  Width="200" Height="30" Canvas.Left="114" Canvas.Top="103" HorizontalAlignment="Center" VerticalAlignment="Center" Text="a"/>
+            <TextBox Style="{StaticResource InputBox}" x:Name="password" KeyDown="OnKeyDownHandler" Width="200" Height="30" Canvas.Left="114" Canvas.Top="165" HorizontalAlignment="Center" VerticalAlignment="Top" Text="a"/>
             <Button Click="logIn" Canvas.Left="176" Canvas.Top="263" Content="Войти" Height="30" Width="76" HorizontalAlignment="Left" VerticalAlignment="Top"></Button>
         </Canvas>
     </Grid>

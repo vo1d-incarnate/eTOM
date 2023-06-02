@@ -31,13 +31,11 @@ namespace eTOM
     /// </summary>
     public partial class maingui : Page
     {
-
         private string connectPostgre = String.Format("Server=Localhost;Port=5432;User Id=postgres;password=MmV8qd-+1!;Database=eTOM");
         private NpgsqlConnection connecting;
         private string rolesLocal;
         private int userIdLocal;
         
-
         public maingui(string roles, int userId)
         {
             rolesLocal = roles;
@@ -57,11 +55,7 @@ namespace eTOM
                 otchet.Visibility = Visibility.Collapsed;
                 otchet1.Visibility = Visibility.Collapsed;
             }
-            
-
-
         }
-
 
         private void LoadZayav()
         {
@@ -82,15 +76,13 @@ namespace eTOM
                 {
                     int j = (int)iDataSet.Rows[i][0];
                     Frame frame = new Frame();
+                    frame.Margin = new Thickness(0, 0, 0, 0);
                     frame.Navigate(new zayavLifeline(j));
                     Zayavki.Items.Add(new TabItem
                     {
-                        Header = new TextBlock { Text = "Заявка №" + j.ToString() }, // установка заголовка вкладки
-
-                        Content = frame // установка содержимого вкладки
+                        Header = new TextBlock { Text = "Заявка №" + j.ToString() },
+                        Content = frame
                     });
-
-
                 }
             }
             catch (Exception ex)
@@ -180,13 +172,11 @@ namespace eTOM
                 iDataTable_out.TableName = "Equipment"; 
                 iDataSet.Tables.Add(iDataTable_out);
 
-
                 equipment.ItemsSource = iDataSet.Tables[0].DefaultView;
                 equipment.IsReadOnly = true;
                 equipment.DataContext = iDataSet;
 
                 connecting.Close();
-
             }
             catch (Exception ex)
             {
@@ -228,7 +218,6 @@ namespace eTOM
             ClientEdit clientEdit = new ClientEdit(rolesLocal);
             string idData = rowView[0].ToString();
             clientEdit.idData = idData;
-            //   serv_edit.test.Text += rowView[0].ToString();
             clientEdit.Show();
 
         }
@@ -241,9 +230,6 @@ namespace eTOM
             equipmentEdit.idData = idData;
             equipmentEdit.Show();
         }
-
-
-        
 
         private void Client_excel(object sender, RoutedEventArgs e)
         {
@@ -306,7 +292,6 @@ namespace eTOM
 
         }
 
-
         private void findClient (object sender, RoutedEventArgs e)
         {
             try
@@ -351,7 +336,6 @@ namespace eTOM
             }
         }
 
-
         private void findEquipment(object sender, RoutedEventArgs e)
         {
             try
@@ -360,16 +344,8 @@ namespace eTOM
                 if (searchParam_equipment.Text == null || string.IsNullOrWhiteSpace(searchParam_equipment.Text)) { MessageBox.Show("Выберите поле для поиска"); return; }
                 else if (searchText_equipment.Text == null || string.IsNullOrWhiteSpace(searchText_equipment.Text)) { MessageBox.Show("Введите данные для поиска"); return; }
 
-                
-                
-
                 DataView dv = new DataView(((DataView)equipment.ItemsSource).ToTable());
-                
 
-
-                //connecting.Open();
-
-                //string sql = null;
                 switch (searchParam_equipment.Text)
                 {
                     case "Номер":
@@ -386,16 +362,6 @@ namespace eTOM
                         break;
                 }
                 equipment.ItemsSource = dv;
-                /*
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
-                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
-                DataSet iDataSet = new DataSet();
-                iAdapter.Fill(iDataSet, "Clients");
-
-                clients.IsReadOnly = true;
-                clients.DataContext = iDataSet;
-
-                connecting.Close();*/
             }
             catch (Exception ex)
             {
@@ -403,7 +369,6 @@ namespace eTOM
                 MessageBox.Show("Error" + ex.Message);
             }
         }
-
 
         private void logOut(object sender, RoutedEventArgs e)
         {
@@ -417,40 +382,5 @@ namespace eTOM
             ZayavAdd zayavAdd = new ZayavAdd(userIdLocal);
             zayavAdd.Show();
         }
-
-
-
-
-
-
     }
 }
-/*
-
-
-                string searchParamBack = searchParam.Text.Remove(searchParam.Text.LastIndexOf(@" "));
-
-                connecting.Open();
-
-                string sql = null;
-                switch (searchParam.Text.Remove(searchParam.Text.LastIndexOf(@" ")))
-                {
-                    case "Имя":
-                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE name_client = "+ '\u0027' + searchText.Text + '\u0027' + ";";
-                        break;
-                    case "Фамилия":
-                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE surname = "+ '\u0027' + searchText.Text + '\u0027' + ";";
-                        break;
-                    case "Отчество":
-                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE fathername = "+ '\u0027' + searchText.Text + '\u0027' + ";";
-                        break;
-                    case "Номер документа":
-                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE docnumb = "+ '\u0027' + searchText.Text + '\u0027' + ";";
-                        break;
-                    case "Адрес":
-                        sql = @"SELECT * FROM public." + '\u0022' + "Clients" + '\u0022' + "WHERE address = "+ '\u0027' + searchText.Text + '\u0027' + ";";
-                        break;
-                }
-
-
-*/
