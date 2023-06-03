@@ -5,49 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:eTOM"
         mc:Ignorable="d"
-        Title="EquipmentAdd" Height="450" Width="800">
+        Title="EquipmentAdd" Height="450" Width="800" Style="{StaticResource WindowStyle}">
 
-    <Window.Resources>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="TextBox.Static.Background" Color="#FFFFFFFF"/>
-        <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="AllowDrop" Value="true"/>
-            <Setter Property="MinWidth" Value="0"/>
-            <Setter Property="MinHeight" Value="0"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition><!--0*-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition><!--1-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition><!--2-->
+            <RowDefinition Height="0.5*"></RowDefinition><!--3*-->
+            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition><!--4-->
+            <RowDefinition Height="0.5*" MinHeight="44"></RowDefinition><!--5*-->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Модель</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="0,2,0,2" Style="{StaticResource Header}">Статус</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource Header}">Номер договора</TextBlock>
 
-    </Window.Resources>
+        <TextBox x:Name="model" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
+        <CheckBox x:Name="status" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+        <TextBox x:Name="contractnumber" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
 
-    <Grid Background="#ffb56b">
-        <TextBlock HorizontalAlignment="Left" Margin="60,34,0,0" VerticalAlignment="Top">Модель</TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="300,34,0,0" VerticalAlignment="Top">Статус</TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="540,34,0,0" VerticalAlignment="Top">Номер договора</TextBlock>
-
-        <TextBox x:Name="model" HorizontalAlignment="Left" Margin="60,50,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
-        <CheckBox x:Name="status" HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
-        <TextBox x:Name="contractnumber" HorizontalAlignment="Left" Margin="540,50,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
-
-        <Button Content="Сохранить" HorizontalAlignment="Left" Height="52" Margin="75,358,0,0" VerticalAlignment="Top" Width="130" Click="Button_Click" />
-        <Button Content="Очистить" HorizontalAlignment="Center" Height="52" Margin="0,358,0,0" VerticalAlignment="Top" Width="130" Click="Button_Click_1" />
-        <Button Content="Выйти" HorizontalAlignment="Left" Height="52" Margin="595,358,0,0" VerticalAlignment="Top" Width="130" Click="Button_Click_2" />
+        <Button Content="Сохранить" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,4,0,4" Click="Button_Click" />
+        <Button Content="Очистить" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" Margin="0,4,0,4" Click="Button_Click_1" />
+        <Button Content="Выйти" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0,4,0,4" Click="Button_Click_2" />
     </Grid>
 </Window>

@@ -7,62 +7,62 @@
         mc:Ignorable="d"
         
         Loaded="Window_Loaded"
-        Title="ClientEdit" Height="450" Width="800">
-    <Window.Resources>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="TextBox.Static.Background" Color="#FFFFFFFF"/>
-        <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="AllowDrop" Value="true"/>
-            <Setter Property="MinWidth" Value="0"/>
-            <Setter Property="MinHeight" Value="0"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
+        Title="ClientEdit" Height="450" Width="800" Style="{StaticResource WindowStyle}">
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition>
+            <!--0*-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition>
+            <!--1-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition>
+            <!--2-->
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <!--3*-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition>
+            <!--4-->
+            <RowDefinition Height="0.05*" MinHeight="50"></RowDefinition>
+            <!--5-->
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <!--6*-->
+            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition>
+            <!--7-->
+            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition>
+            <!--8-->
+            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition>
+            <!--9*-->
+            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition>
+            <!--10-->
+            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition>
+            <!--11*-->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width ="1*"></ColumnDefinition>
+            <ColumnDefinition Width ="1*"></ColumnDefinition>
+            <ColumnDefinition Width ="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Имя</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="0,2,0,2" Style="{StaticResource Header}">Фамилия</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource Header}">Отчество(не обязательно)</TextBlock>
 
-    <Grid Background="#ffb56b">
+        <TextBox x:Name="name" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
+        <TextBox x:Name="surname" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
+        <TextBox x:Name="fatherName" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
 
-        <TextBlock HorizontalAlignment="Left" Margin="60,34,0,0" VerticalAlignment="Top">Имя</TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="300,34,0,0" VerticalAlignment="Top">Фамилия</TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="540,34,0,0" VerticalAlignment="Top">Отчество(не обязательно)</TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="60,120,0,0" VerticalAlignment="Top">Адрес</TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="60,201,0,0" VerticalAlignment="Top">Номер телефона</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Адрес</TextBlock>
 
-        <TextBlock HorizontalAlignment="Left" Margin="540,201,0,0" VerticalAlignment="Top">Номер документа</TextBlock>
-        <TextBox x:Name="name" HorizontalAlignment="Left" Margin="60,50,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
-        <TextBox x:Name="surname" HorizontalAlignment="Left" Margin="300,50,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
-        <TextBox x:Name="fatherName" HorizontalAlignment="Left" Margin="540,50,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
-        <TextBox x:Name="address" HorizontalAlignment="Left" Margin="60,136,0,0" VerticalAlignment="Top" Width="680" Height="40"/>
-        <TextBox x:Name="telNumb"  HorizontalAlignment="Left" Margin="60,217,0,0" VerticalAlignment="Top" Width="200" Height="40"/>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="10,2,10,2">
+            <TextBox Padding="0,0,6,0" MaxWidth="760"  x:Name="address" AcceptsReturn="True" TextWrapping="Wrap" Style="{StaticResource InputBox}"/>
+        </ScrollViewer>
 
-        <!--<xctk:MaskedTextBox x:Name="telNumb" HorizontalAlignment="Left" Margin="60,217,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" TextAlignment="Center"  FontSize="28" Height="40"
-                             Mask="+7 (000) 000-0000"
-                             ValueDataType="{x:Type s:String}" />-->
-        <TextBox x:Name="docNumb" Margin="540,217,60,0" VerticalAlignment="Top" Height="40"/>
-        <!--<xctk:MaskedTextBox x:Name="docNumb" HorizontalAlignment="Left" Margin="540,217,0,0" VerticalAlignment="Top" Width="200" Height="40" VerticalContentAlignment="Center" TextAlignment="Center"  FontSize="28"
-                             Mask="0000 000000"
-                             ValueDataType="{x:Type s:String}" />-->
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Номер телефона</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource Header}">Номер документа</TextBlock>
 
-        <Button Content="Изменить" HorizontalAlignment="Right" Height="52" Margin="0,358,595,0" VerticalAlignment="Top" Width="130" Click="Button_Click" />
-        <Button x:Name="delete" Content="Удалить" HorizontalAlignment="Left" Height="52" Margin="335,358,0,0" VerticalAlignment="Top" Width="130" Click="Button_Click_1" />
-        <Button Content="Выйти" HorizontalAlignment="Right" Height="52" Margin="0,358,75,0" VerticalAlignment="Top" Width="130" Click="Button_Click_2" />
+        <TextBox x:Name="telNumb" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
+        <TextBox x:Name="docNumb" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
+
+        <Button Content="Изменить" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="10" Grid.Column="0" Margin="0,2,0,2" Click="Button_Click" />
+        <Button x:Name="delete" Content="Удалить"  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="10" Grid.Column="1" Margin="0,2,0,2" Click="Button_Click_1" />
+        <Button Content="Выйти" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="10" Grid.Column="2" Margin="0,2,0,2" Click="Button_Click_2" />
     </Grid>
 </Window>

@@ -289,7 +289,53 @@ namespace eTOM
 
         private void Equipment_excel(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                connecting.Open();
+                string sql = @"SELECT model, status, client_id FROM public." + '\u0022' + "Equipment" + '\u0022' + ";";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+                DataSet iDataSet = new DataSet();
+                iAdapter.Fill(iDataSet, "Equipment");
+                connecting.Close();
 
+                DataTable ct = iDataSet.Tables[0];
+
+                Excel.Application objExcel = new Excel.Application();
+                Excel.Workbook workbook = objExcel.Workbooks.Add();
+                Excel.Worksheet sheet = workbook.ActiveSheet;
+                sheet.Cells[1, 1] = "Модель";
+                sheet.Cells[1, 2] = "Статус";
+                sheet.Cells[1, 3] = "id Клиента";
+                
+
+                Excel.Range range = sheet.Range[sheet.Cells[2, 1], sheet.Cells[ct.Rows.Count, ct.Columns.Count]];
+
+                for (int i = 0; i < ct.Rows.Count; ++i)
+                    for (int j = 0; j < ct.Columns.Count; ++j)
+                    {
+                        range.Cells[1 + i, 1 + j] = ct.Rows[i][j].ToString();
+                    }
+
+                sheet.Cells.EntireColumn.AutoFit();
+                sheet.Cells.EntireRow.AutoFit();
+                sheet.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
+                sheet.PageSetup.Zoom = false;
+                sheet.PageSetup.FitToPagesWide = 1;
+                sheet.PageSetup.FitToPagesTall = false;
+                sheet.PageSetup.ScaleWithDocHeaderFooter = true;
+                sheet.PageSetup.AlignMarginsHeaderFooter = true;
+                range = sheet.Range["A1", "X1"];
+                range.Font.Bold = true;
+                sheet.Range["A1", "X1"].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                objExcel.Visible = true;
+            }
+
+            catch (Exception ex)
+            {
+                connecting.Close();
+                MessageBox.Show("Error" + ex.Message);
+            }
         }
 
         private void findClient (object sender, RoutedEventArgs e)

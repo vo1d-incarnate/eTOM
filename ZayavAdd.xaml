@@ -10,28 +10,35 @@
  
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.05*" MinHeight="24"></RowDefinition>
-            <RowDefinition Height="0.05*" MinHeight="24"></RowDefinition>
-            <RowDefinition Height="0.05*" MinHeight="24"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="0.15*" MinHeight="48"></RowDefinition>
+            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition><!--0*-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition><!--1-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition><!--2-->
+            <RowDefinition Height="0.5*"></RowDefinition><!--3*-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition><!--4-->
+            <RowDefinition Height="0.05*" MinHeight="70"></RowDefinition><!--5-->
+            <RowDefinition Height="0.5*"></RowDefinition><!--6*-->
+            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition><!--7-->
+            <RowDefinition Height="0.5*" MinHeight="44"></RowDefinition><!--8*-->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}"><Run Language="ru-ru" Text="Тариф"/></TextBlock>
-        <ComboBox Height="20"  Width="140" IsEditable="False" IsReadOnly="True" x:Name="service_choose" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2,0,2"/>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Margin="0,2,0,2" Style="{StaticResource Header}"><Run Language="ru-ru" Text="Номер договора клиента"/></TextBlock>
-        <ComboBox Height="20"  Width="140" IsEditable="False" IsReadOnly="True" x:Name="client_choose" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="0,2,0,2"/>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Комментарий</TextBlock>
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="10,5,10,5">
-            <TextBox x:Name="comment"  Style="{StaticResource InputBox}"/>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}"><Run Language="ru-ru" Text="Тариф"/></TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="0,2,0,2" Style="{StaticResource Header}"><Run Language="ru-ru" Text="Номер договора клиента"/></TextBlock>
+        
+        <ComboBox Height="20"  Width="140" IsEditable="False" IsReadOnly="True" x:Name="service_choose" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2,0,2"/>
+        <ComboBox Height="20"  Width="140" IsEditable="False" IsReadOnly="True" x:Name="client_choose" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Margin="0,2,0,2"/>
+        
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Комментарий</TextBlock>
+        
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="10,5,10,5">
+            <TextBox x:Name="comment" Padding="0,0,6,0" Width="760" AcceptsReturn="True" TextWrapping="Wrap" Style="{StaticResource InputBox}"/>
         </ScrollViewer>
 
-        <Button Content="Сохранить"  Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,4,0,4"/>
-        <Button Content="Очистить"  Click="Button_Click_1" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" Margin="0,4,0,4"/>
-        <Button Content="Выйти"  Click="Button_Click_2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Margin="0,4,0,4"/>
+        <Button Content="Сохранить"  Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="0" Margin="0,4,0,4"/>
+        <Button Content="Очистить"  Click="Button_Click_1" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" Margin="0,4,0,4"/>
+        <Button Content="Выйти"  Click="Button_Click_2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="2" Margin="0,4,0,4"/>
     </Grid>
 </Window>
