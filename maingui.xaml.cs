@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +49,8 @@ namespace eTOM
             connecting = new NpgsqlConnection(connectPostgre);
             LoadZayav();
             Equipment_table();
+            StatsByMonths_Upload();
+            StatsTarifs_Upload();
 
             registration.Content = new RegistrationPage();
 
@@ -54,6 +58,7 @@ namespace eTOM
             {
                 otchet.Visibility = Visibility.Collapsed;
                 otchet1.Visibility = Visibility.Collapsed;
+                reg.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -194,6 +199,7 @@ namespace eTOM
         {
             LoadZayav();
         }
+
         private void Reload_equipment(object sender, RoutedEventArgs e)
         {
             Equipment_table();
@@ -427,6 +433,389 @@ namespace eTOM
         {
             ZayavAdd zayavAdd = new ZayavAdd(userIdLocal);
             zayavAdd.Show();
+        }
+
+        class DataPoint
+        {
+            public int Forecast { get; set; }
+
+
+            public DataPoint(int forecast)
+            {
+                Forecast = forecast;
+            }
+        }
+        // Создаем список точек для графика
+        string GetForecastString(List<DataPoint> dataPoints)
+        {
+            string dataString = "";
+            foreach (var point in dataPoints)
+            {
+                //  MessageBox.Show(point.Forecast.ToString());
+                dataString += point.Forecast + ",";
+            }
+            return dataString.TrimEnd(',');
+        }
+
+        private void StatsByMonths_Upload()
+        {
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            try
+            {
+
+                connecting.Open();
+                string sql = @"
+                   SELECT service_id, created_at
+                   FROM public.""Zayavki""
+                   WHERE user_id = " + userIdLocal + ";";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+                DataTable iDataTable = new DataTable();
+                iAdapter.Fill(iDataTable);
+                connecting.Close();
+
+                DataTable iDataTable_out = new DataTable();
+
+                iDataTable_out.Columns.Add("service_id", typeof(int));
+                iDataTable_out.Columns.Add("date", typeof(DateTime));
+
+                for (int i = 0; i < iDataTable.Rows.Count; i++)
+                {
+                    iDataTable_out.Rows.Add();
+                    iDataTable_out.Rows[i][0] = iDataTable.Rows[i][0];
+                    var dateTimefromDB = iDataTable.Rows[i][1];
+                    //iDataTable_out.Rows[i][1] = DateTime.Parse(dateTimefromDB.ToString()).ToShortDateString();
+                    iDataTable_out.Rows[i][1] = (DateTime)iDataTable.Rows[i][1];
+                }
+                Console.WriteLine("До" + iDataTable_out.Rows.Count);
+                for (int i = iDataTable_out.Rows.Count - 1; i >= 0; i--)
+                {
+                    if (((DateTime)iDataTable_out.Rows[i][1]).Year != (DateTime.Now.Year))
+                    {
+                        iDataTable_out.Rows.Remove(iDataTable_out.Rows[i]);
+                        iDataTable_out.AcceptChanges();
+                    }
+                }
+                Console.WriteLine("После" + iDataTable_out.Rows.Count);
+                int month4 = DateTime.Now.Month;
+                int month3 = month4 - 1;
+                int month2 = month3 - 1;
+                int month1 = month2 - 1;
+                int month0 = month1 - 1;
+
+                string strMonth4;
+                string strMonth3;
+                string strMonth2;
+                string strMonth1;
+                string strMonth0;
+
+                strMonth4 = monthToString(month4);
+                strMonth3 = monthToString(month3);
+                strMonth2 = monthToString(month2);
+                strMonth1 = monthToString(month1);
+                strMonth0 = monthToString(month0);
+                Console.WriteLine(month4);
+                Console.WriteLine(strMonth4);
+                
+
+                int countM0 = 0;
+                int countM1 = 0;
+                int countM2 = 0;
+                int countM3 = 0;
+                int countM4 = 0;
+
+                for (int i = 0; i < iDataTable_out.Rows.Count; i++)
+                {
+                    if (((DateTime)iDataTable_out.Rows[i][1]).Month == month0)
+                    {
+                        countM0++;
+                    }
+                }
+                for (int i = 0; i < iDataTable_out.Rows.Count; i++)
+                {
+                    if (((DateTime)iDataTable_out.Rows[i][1]).Month == month1)
+                    {
+                        countM1++;
+                    }
+                }
+                for (int i = 0; i < iDataTable_out.Rows.Count; i++)
+                {
+                    if (((DateTime)iDataTable_out.Rows[i][1]).Month == month2)
+                    {
+                        countM2++;
+                    }
+                }
+                for (int i = 0; i < iDataTable_out.Rows.Count; i++)
+                {
+                    if (((DateTime)iDataTable_out.Rows[i][1]).Month == month3)
+                    {
+                        countM3++;
+                    }
+                }
+                for (int i = 0; i < iDataTable_out.Rows.Count; i++)
+                {
+                    if (((DateTime)iDataTable_out.Rows[i][1]).Month == month4)
+                    {
+                        countM4++;
+                    }
+                }
+
+                
+
+                int[] dataValue = new int[5];
+                dataValue[0] = countM0;
+                dataValue[1] = countM1;
+                dataValue[2] = countM2;
+                dataValue[3] = countM3;
+                dataValue[4] = countM4;
+
+                int maxZayav = dataValue.Max();
+                for (int i = 0; i < dataValue.Length; i++)
+                {
+                    dataPoints.Add(new DataPoint(dataValue[i]));
+                }
+
+                int yAxisStep = 1;
+                if (maxZayav > 10)
+                {
+                    yAxisStep = 10;
+                } else if (maxZayav > 100)
+                {
+                    yAxisStep = 100;
+                }
+                // Формируем URL для запроса к API
+                string url = "https://chart.googleapis.com/chart" +
+                    "?cht=lc" + // Тип графика - линейный
+                    "&chs=340x190" + // Размер графика
+                    "&chxt=x,y" + // Оси X и Y
+                    "&chxr=0,0,4,1|1,0," + Math.Round(maxZayav * 1.2) + "," + yAxisStep + // Диапазоны значений осей
+                    "&chds=0," + Math.Round(maxZayav*1.2) + // Минимальное и максимальное значение данных
+                    "&chco=117B8E" + // Цвета линий
+                    "&chxs=0,FFF9F3,12,0,lt|1,FFF9F3,12,0,lt" +
+                    "&chd=t:" + GetForecastString(dataPoints) + // Данные графика
+                    "&chxl=0:|" + strMonth0 + "|" + strMonth1 + "|" + strMonth2 + "|" + strMonth3 + "|" + strMonth4 +
+                    "&chdl=Прирост клиентов" + // Легенда графика
+                    "&chtt=Подключённые заявки за месяц" + // Заголовок графика
+                    "&chts=FFF9F3" +
+                    "&chdls=FFF9F3" + // Цвет текста легенды
+                    "&chdlp=b" + // Выравнивание легенды 
+                    "&chf=bg,s,2C4370" + // Фоновый цвет графика
+                    "&chg=25," + (100/(Math.Round(maxZayav * 1.2)/yAxisStep)) + // Сетка
+                    "&chc=FFF9F3"; // Цвет линий осей
+
+                // Отправляем запрос к API и получаем ответ в формате изображения
+                WebClient client = new WebClient();
+                byte[] imageBytes = client.DownloadData(url);
+
+                // Создаем BitmapImage из полученных байтов и устанавливаем его в качестве источника изображения для элемента Image
+                BitmapImage chartBitmap = new BitmapImage();
+                chartBitmap.BeginInit();
+                chartBitmap.StreamSource = new System.IO.MemoryStream(imageBytes);
+                chartBitmap.EndInit();
+                chartMonths.Source = chartBitmap;
+            }
+            catch (Exception ex)
+            {
+                connecting.Close();
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+
+        
+        private void StatsTarifs_Upload()
+        {
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            try
+            {
+                connecting.Open();
+                string sql = @"
+                   SELECT service_id, created_at
+                   FROM public.""Zayavki""
+                   WHERE user_id = " + userIdLocal + ";";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+                DataTable iDataTable = new DataTable();
+                iAdapter.Fill(iDataTable);
+                connecting.Close();
+
+                DataTable iDataTable_out = new DataTable();
+
+                iDataTable_out.Columns.Add("service_id", typeof(int));
+                iDataTable_out.Columns.Add("date", typeof(DateTime));
+
+                for (int i = 0; i < iDataTable.Rows.Count; i++)
+                {
+                    iDataTable_out.Rows.Add();
+                    iDataTable_out.Rows[i][0] = iDataTable.Rows[i][0];
+                    var dateTimefromDB = iDataTable.Rows[i][1];
+                    //iDataTable_out.Rows[i][1] = DateTime.Parse(dateTimefromDB.ToString()).ToShortDateString();
+                    iDataTable_out.Rows[i][1] = (DateTime)iDataTable.Rows[i][1];
+                }
+                Console.WriteLine("До " + iDataTable_out.Rows.Count);
+                for (int i = iDataTable_out.Rows.Count - 1; i >= 0; i--)
+                {
+                    if (((DateTime)iDataTable_out.Rows[i][1]).Year != (DateTime.Now.Year))
+                    {
+                        iDataTable_out.Rows.Remove(iDataTable_out.Rows[i]);
+                        iDataTable_out.AcceptChanges();
+                    }
+                    else if (((DateTime)iDataTable_out.Rows[i][1]).Month != (DateTime.Now.Month))
+                    {
+                        iDataTable_out.Rows.Remove(iDataTable_out.Rows[i]);
+                        iDataTable_out.AcceptChanges();
+                    }
+                }
+                Console.WriteLine("После " + iDataTable_out.Rows.Count);
+                
+
+
+                int countTarif0 = 0;
+                int countTarif1 = 0;
+                int countTarif2 = 0;
+                int countTarif3 = 0;
+
+                for (int i = 0; i < iDataTable_out.Rows.Count; i++)
+                {
+                    if ((int)iDataTable_out.Rows[i][0] == 1)
+                    {
+                        countTarif0++;
+                    }
+                }
+                for (int i = 0; i < iDataTable_out.Rows.Count; i++)
+                {
+                    if ((int)iDataTable_out.Rows[i][0] == 2)
+                    {
+                        countTarif1++;
+                    }
+                }
+                for (int i = 0; i < iDataTable_out.Rows.Count; i++)
+                {
+                    if ((int)iDataTable_out.Rows[i][0] == 3)
+                    {
+                        countTarif2++;
+                    }
+                }
+                for (int i = 0; i < iDataTable_out.Rows.Count; i++)
+                {
+                    if ((int)iDataTable_out.Rows[i][0] == 4)
+                    {
+                        countTarif3++;
+                    }
+                }
+
+                int[] dataValue = new int[4];
+                dataValue[0] = countTarif0;
+                dataValue[1] = countTarif1;
+                dataValue[2] = countTarif2;
+                dataValue[3] = countTarif3;
+
+                int maxZayav = dataValue.Max();
+                for (int i = 0; i < dataValue.Length; i++)
+                {
+                    if (dataValue[i] != 0)
+                    {
+                        dataPoints.Add(new DataPoint(dataValue[i]));
+                    }
+                }
+
+                int yAxisStep = 1;
+                if (maxZayav > 10)
+                {
+                    yAxisStep = 10;
+                }
+                else if (maxZayav > 100)
+                {
+                    yAxisStep = 100;
+                }
+                // Формируем URL для запроса к API
+                string url = "https://chart.googleapis.com/chart" +
+                    "?cht=p" + // Тип графика - линейный
+                    "&chs=340x190" + // Размер графика
+                    "&chxt=x,y" + // Оси X и Y
+                    "&chxr=0,0,4,1|1,0," + Math.Round(maxZayav * 1.2) + "," + yAxisStep + // Диапазоны значений осей
+                    "&chds=0," + Math.Round(maxZayav * 1.2) + // Минимальное и максимальное значение данных
+                    "&chco=117B8E" + // Цвета линий
+                    "&chxs=0,FFF9F3,12,0,lt|1,FFF9F3,12,0,lt" +
+                    "&chd=t:" + GetForecastString(dataPoints) + // Данные графика
+                    "&chxl=0:|AllIn|Fictive 0Rub|None|None" +
+                    "&chdl=" + countTarif0 + "|" + countTarif1 + "|" + countTarif2 + "|" + countTarif3 + // Легенда графика
+                    "&chtt=Подключённые заявки за месяц" + // Заголовок графика
+                    "&chts=FFF9F3" +
+                    "&chdls=FFF9F3" + // Цвет текста легенды
+                    "&chdlp=b" + // Выравнивание легенды 
+                    "&chf=bg,s,2C4370" + // Фоновый цвет графика
+                    "&chg=25," + (100 / (Math.Round(maxZayav * 1.2) / yAxisStep)) + // Сетка
+                    "&chc=FFF9F3"; // Цвет линий осей
+
+                // Отправляем запрос к API и получаем ответ в формате изображения
+                WebClient client = new WebClient();
+                byte[] imageBytes = client.DownloadData(url);
+
+                // Создаем BitmapImage из полученных байтов и устанавливаем его в качестве источника изображения для элемента Image
+                BitmapImage chartBitmap = new BitmapImage();
+                chartBitmap.BeginInit();
+                chartBitmap.StreamSource = new System.IO.MemoryStream(imageBytes);
+                chartBitmap.EndInit();
+                chartTarifs.Source = chartBitmap;
+            }
+            catch (Exception ex)
+            {
+                connecting.Close();
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+
+
+
+
+
+
+
+        string monthToString(int month)
+        {
+            string strMonth = string.Empty;
+            switch (month)
+            {
+                case 1:
+                    strMonth = "Январь";
+                    break;
+                case 2:
+                    strMonth = "Февраль";
+                    break;
+                case 3:
+                    strMonth = "Март";
+                    break;
+                case 4:
+                    strMonth = "Апрель";
+                    break;
+                case 5:
+                    strMonth = "Май";
+                    break;
+                case 6:
+                    strMonth = "Июнь";
+                    break;
+                case 7:
+                    strMonth = "Июль";
+                    break;
+                case 8:
+                    strMonth = "Август";
+                    break;
+                case 9:
+                    strMonth = "Сентябрь";
+                    break;
+                case 10:
+                    strMonth = "Октябрь";
+                    break;
+                case 11:
+                    strMonth = "Ноябрь";
+                    break;
+                case 12:
+                    strMonth = "Декабрь";
+                    break;
+            }
+            return strMonth;
         }
     }
 }

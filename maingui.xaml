@@ -153,8 +153,8 @@
                             <Button Content="Добавить" Click="ZayavAdd_click" Grid.Row="0"/>
                             <Button Content="Перезагрузить"  Width="100" Click="Reload_zayav" Grid.Row="1"></Button>
                         </Grid>
-                        
-                        
+
+
                     </Grid>
 
                 </TabItem.Content>
@@ -163,12 +163,12 @@
                 <TabItem.Content>
                     <Grid>
                         <Grid.RowDefinitions>
-                                <RowDefinition Height="0.3*"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="5*"></RowDefinition>
-                                <RowDefinition Height="5"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="0.3*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="5*"></RowDefinition>
+                            <RowDefinition Height="5"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width ="*"></ColumnDefinition>
@@ -200,7 +200,6 @@
                                             <Button Click="Equipment_edit_click">Подробнее</Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
-
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -219,8 +218,42 @@
                 </TabItem.Content>
             </TabItem>
             <TabItem Header="Поставщики"></TabItem>
-            <TabItem Header="Статистика"></TabItem>
-            <TabItem Header="Регистрация">
+            <TabItem x:Name="Satistic" Header="Статистика">
+                <TabItem.Content>
+                    <Grid Height="400">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width ="1*"></ColumnDefinition>
+                            <ColumnDefinition Width ="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Visibility="Hidden" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="*"></DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Rectangle Fill="#117B8E" Grid.Column="0" Grid.Row="0"  StrokeThickness="0" RadiusX="20" RadiusY="20" Margin="2,2,2,2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Rectangle Fill="#2C4370" Grid.Column="1" Grid.Row="1" StrokeThickness="0" RadiusX="20" RadiusY="20" Margin="2,2,2,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Image x:Name="chartMonths" Grid.Column="1" Width="330" Height="190" Grid.Row="0" Stretch="Uniform" Margin="2,2,2,2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image.Clip>
+                                <RectangleGeometry RadiusX="20" RadiusY="20" Rect="0,0,330,190"/>
+                            </Image.Clip>
+                        </Image>
+                        <Image x:Name="chartTarifs" Grid.Column="0" Width="330" Height="190" Grid.Row="0" Stretch="Uniform" Margin="2,2,2,2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image.Clip>
+                                <RectangleGeometry RadiusX="20" RadiusY="20" Rect="0,0,330,190"/>
+                            </Image.Clip>
+                        </Image>
+                        <!--<TextBlock x:Name="Date" Text="Дата проведения: " Margin="10,0,0,0"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Forecast}"/>
+                        <TextBlock x:Name="Budget" Text="Бюджет: " Margin="0,0,10,0"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Forecast}"/>
+                        <Button Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Content="Закрыть"/>
+                        <Button Grid.Row="1" Grid.Column="1" Width="145" Content="Скачать изображение" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="reg" Header="Регистрация">
                 <TabItem.Content>
                     <Grid>
                         <Frame x:Name="registration">
@@ -229,7 +262,7 @@
                     </Grid>
                 </TabItem.Content>
             </TabItem>
-            
+
         </TabControl>
         <Grid Grid.Column="0" Grid.Row="1" Margin="0,4,0,0">
             <Grid.RowDefinitions>
