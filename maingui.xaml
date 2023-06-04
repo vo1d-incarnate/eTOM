@@ -234,8 +234,7 @@
                                 <DataGridTemplateColumn Width="*"></DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Rectangle Fill="#117B8E" Grid.Column="0" Grid.Row="0"  StrokeThickness="0" RadiusX="20" RadiusY="20" Margin="2,2,2,2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Rectangle Fill="#2C4370" Grid.Column="1" Grid.Row="1" StrokeThickness="0" RadiusX="20" RadiusY="20" Margin="2,2,2,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        
                         <Image x:Name="chartMonths" Grid.Column="1" Width="330" Height="190" Grid.Row="0" Stretch="Uniform" Margin="2,2,2,2" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Image.Clip>
                                 <RectangleGeometry RadiusX="20" RadiusY="20" Rect="0,0,330,190"/>
@@ -246,6 +245,17 @@
                                 <RectangleGeometry RadiusX="20" RadiusY="20" Rect="0,0,330,190"/>
                             </Image.Clip>
                         </Image>
+
+                        <Rectangle Fill="#2C4370" Grid.Column="0" Grid.Row="1"  StrokeThickness="0" RadiusX="20" RadiusY="20" Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Margin="10,10,10,0" Text="План" Foreground="#2C4370"  Background="#FFF9F3" FontSize="24"/>
+                        <TextBlock x:Name="statsPlan" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,70,2,2">С тарифом AllIn: 12</TextBlock>
+                        <TextBlock x:Name="statsPlan1" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,100,2,2">С тарифом 0RUB: 12</TextBlock>
+                        <TextBlock x:Name="statsPlan2" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,130,2,2">С оборудованием: 12</TextBlock>
+                        <Rectangle Fill="#2C4370" Grid.Column="1" Grid.Row="1" StrokeThickness="0" RadiusX="20" RadiusY="20" Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="10,10,10,0" Text="Закрыто" Foreground="#2C4370"  Background="#FFF9F3" FontSize="24"/>
+                        <TextBlock x:Name="statsMore" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,70,2,2">С тарифом AllIn: 10</TextBlock>
+                        <TextBlock x:Name="statsMore1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,100,2,2">С тарифом 0RUB: 10</TextBlock>
+                        <TextBlock x:Name="statsMore2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,130,2,2">С оборудованием: 10</TextBlock>
                         <!--<TextBlock x:Name="Date" Text="Дата проведения: " Margin="10,0,0,0"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Forecast}"/>
                         <TextBlock x:Name="Budget" Text="Бюджет: " Margin="0,0,10,0"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Forecast}"/>
                         <Button Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Content="Закрыть"/>

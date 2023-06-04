@@ -451,7 +451,6 @@ namespace eTOM
             string dataString = "";
             foreach (var point in dataPoints)
             {
-                //  MessageBox.Show(point.Forecast.ToString());
                 dataString += point.Forecast + ",";
             }
             return dataString.TrimEnd(',');
@@ -462,17 +461,7 @@ namespace eTOM
             List<DataPoint> dataPoints = new List<DataPoint>();
             try
             {
-
-                connecting.Open();
-                string sql = @"
-                   SELECT service_id, created_at
-                   FROM public.""Zayavki""
-                   WHERE user_id = " + userIdLocal + ";";
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
-                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
-                DataTable iDataTable = new DataTable();
-                iAdapter.Fill(iDataTable);
-                connecting.Close();
+                DataTable iDataTable = Stats_Upload();
 
                 DataTable iDataTable_out = new DataTable();
 
@@ -514,9 +503,6 @@ namespace eTOM
                 strMonth2 = monthToString(month2);
                 strMonth1 = monthToString(month1);
                 strMonth0 = monthToString(month0);
-                Console.WriteLine(month4);
-                Console.WriteLine(strMonth4);
-                
 
                 int countM0 = 0;
                 int countM1 = 0;
@@ -559,8 +545,6 @@ namespace eTOM
                         countM4++;
                     }
                 }
-
-                
 
                 int[] dataValue = new int[5];
                 dataValue[0] = countM0;
@@ -620,24 +604,25 @@ namespace eTOM
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-
-
-        
+ 
         private void StatsTarifs_Upload()
         {
             List<DataPoint> dataPoints = new List<DataPoint>();
             try
             {
                 connecting.Open();
-                string sql = @"
-                   SELECT service_id, created_at
-                   FROM public.""Zayavki""
-                   WHERE user_id = " + userIdLocal + ";";
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
-                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
-                DataTable iDataTable = new DataTable();
-                iAdapter.Fill(iDataTable);
+                string sql1 = @"
+                   SELECT serv_name
+                   FROM public.""Services""
+                   ;";
+                NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connecting);
+                NpgsqlDataAdapter iAdapter1 = new NpgsqlDataAdapter(cmd1);
+                DataTable iDataTable1 = new DataTable();
+                iAdapter1.Fill(iDataTable1);
                 connecting.Close();
+
+
+                DataTable iDataTable = Stats_Upload();
 
                 DataTable iDataTable_out = new DataTable();
 
@@ -667,8 +652,6 @@ namespace eTOM
                     }
                 }
                 Console.WriteLine("После " + iDataTable_out.Rows.Count);
-                
-
 
                 int countTarif0 = 0;
                 int countTarif1 = 0;
@@ -738,7 +721,7 @@ namespace eTOM
                     "&chco=117B8E" + // Цвета линий
                     "&chxs=0,FFF9F3,12,0,lt|1,FFF9F3,12,0,lt" +
                     "&chd=t:" + GetForecastString(dataPoints) + // Данные графика
-                    "&chxl=0:|AllIn|Fictive 0Rub|None|None" +
+                    "&chxl=0:|" + iDataTable1.Rows[0][0] + "|" + iDataTable1.Rows[1][0] + "|" + iDataTable1.Rows[2][0] + "|" + iDataTable1.Rows[3][0] +
                     "&chdl=" + countTarif0 + "|" + countTarif1 + "|" + countTarif2 + "|" + countTarif3 + // Легенда графика
                     "&chtt=Подключённые заявки за месяц" + // Заголовок графика
                     "&chts=FFF9F3" +
@@ -758,6 +741,15 @@ namespace eTOM
                 chartBitmap.StreamSource = new System.IO.MemoryStream(imageBytes);
                 chartBitmap.EndInit();
                 chartTarifs.Source = chartBitmap;
+
+                // Заполняем поля на странице
+                statsMore.Text = "С тарифом " + iDataTable1.Rows[0][0].ToString() + ": " + countTarif0;
+                statsMore1.Text = "С тарифом " + iDataTable1.Rows[1][0].ToString() + ": " + countTarif1;
+                statsMore2.Text = "С оборудованием: " + countTarif3;
+
+                statsPlan.Text = "С тарифом " + iDataTable1.Rows[0][0].ToString() + ": " + (countTarif0+1);
+                statsPlan1.Text = "С тарифом " + iDataTable1.Rows[1][0].ToString() + ": " + (countTarif1 + 1);
+                statsPlan2.Text = "С оборудованием: " + (countTarif3 + 1);
             }
             catch (Exception ex)
             {
@@ -766,12 +758,20 @@ namespace eTOM
             }
         }
 
-
-
-
-
-
-
+        private DataTable Stats_Upload()
+        {
+            connecting.Open();
+            string sql = @"
+                   SELECT service_id, created_at
+                   FROM public.""Zayavki""
+                   WHERE user_id = " + userIdLocal + ";";
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+            NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+            DataTable iDataTable = new DataTable();
+            iAdapter.Fill(iDataTable);
+            connecting.Close();
+            return iDataTable;
+        }
 
         string monthToString(int month)
         {
