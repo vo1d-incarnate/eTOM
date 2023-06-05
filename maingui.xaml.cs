@@ -1,4 +1,9 @@
-﻿using Npgsql;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Gmail.v1;
+using Google.Apis.Gmail.v1.Data;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
+using Npgsql;
 using Syncfusion.Windows.Shared;
 using System;
 using System.Collections;
@@ -7,10 +12,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Net.NetworkInformation;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +34,7 @@ using System.Windows.Shapes;
 
 
 using Excel = Microsoft.Office.Interop.Excel;
+using Path = System.IO.Path;
 
 namespace eTOM
 {
@@ -37,7 +47,48 @@ namespace eTOM
         private NpgsqlConnection connecting;
         private string rolesLocal;
         private int userIdLocal;
+        private UserCredential credential;
         
+        // Метод для создания текстового сообщения в формате RFC 2822
+        private static string CreateMessage(string sender, string recipient, string subject, string body)
+        {
+            var messageBuilder = new StringBuilder();
+            messageBuilder.AppendLine("MIME-Version: 1.0");
+            messageBuilder.AppendLine($"To: {recipient}");
+            messageBuilder.AppendLine($"From: {sender}");
+        
+            messageBuilder.AppendLine($"Subject: =?utf-8?B?{Base64UrlEncode(Encoding.UTF8.GetBytes(subject))}?=");
+            
+            
+            
+            //messageBuilder.AppendLine($"Subject: {subject}");
+            messageBuilder.AppendLine("Content-Type: text/plain; charset=UTF-8");
+            messageBuilder.AppendLine("Content-Transfer-Encoding: base64");
+            messageBuilder.AppendLine("");
+            var encodedBody = Convert.ToBase64String(Encoding.UTF8.GetBytes(body));
+
+            // Добавляем закодированный текст сообщения в тело MIME-сообщения
+            messageBuilder.AppendLine(encodedBody);
+
+            // Кодируем текст сообщения в формат Base64
+            //var encoded = Base64UrlEncode(Encoding.UTF8.GetBytes(messageBuilder.ToString()));
+            var encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(messageBuilder.ToString()));
+            
+
+            return encoded;
+        }
+
+        // Метод для кодирования байтового массива в формат Base64 URL-safe
+        private static string Base64UrlEncode(byte[] input)
+        {            
+            Console.WriteLine(Convert.ToBase64String(input, 0, input.Length));
+            /*return Convert.ToBase64String(input)
+                .Replace('+', '-')
+                .Replace('/', '_')
+                .Replace("=", "");*/
+            return Convert.ToBase64String(input);
+        }
+
         public maingui(string roles, int userId)
         {
             rolesLocal = roles;
@@ -51,6 +102,7 @@ namespace eTOM
             Equipment_table();
             StatsByMonths_Upload();
             StatsTarifs_Upload();
+            Provider_Upload();
 
             registration.Content = new RegistrationPage();
 
@@ -760,17 +812,25 @@ namespace eTOM
 
         private DataTable Stats_Upload()
         {
-            connecting.Open();
-            string sql = @"
+            try
+            {
+                connecting.Open();
+                string sql = @"
                    SELECT service_id, created_at
                    FROM public.""Zayavki""
                    WHERE user_id = " + userIdLocal + ";";
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
-            NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
-            DataTable iDataTable = new DataTable();
-            iAdapter.Fill(iDataTable);
-            connecting.Close();
-            return iDataTable;
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+                DataTable iDataTable = new DataTable();
+                iAdapter.Fill(iDataTable);
+                connecting.Close();
+                return iDataTable;
+            } catch (Exception ex)
+            {
+                connecting.Close();
+                MessageBox.Show(ex.Message);
+                return null;
+            }
         }
 
         string monthToString(int month)
@@ -816,6 +876,126 @@ namespace eTOM
                     break;
             }
             return strMonth;
+        }
+
+
+
+        private void Provider_Upload()
+        {
+            try
+            {
+                connecting.Open();
+                string sql = @"SELECT * FROM public.""Equipment"";";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
+                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
+                DataTable iDataTable = new DataTable();
+                iAdapter.Fill(iDataTable);
+                connecting.Close();
+
+                providerEquip.Maximum = iDataTable.Rows.Count;
+                int countAtClient = 0;
+
+                for (int i = 0; i < iDataTable.Rows.Count; i++)
+                {
+                    if ((bool)iDataTable.Rows[i][2] == true)
+                    {
+                        countAtClient++;
+                    }
+                }
+                providerEquip.Value = countAtClient;
+
+                providerEquipTxt.Text = "У клиентов: " + countAtClient + " | На складе: " + (iDataTable.Rows.Count - countAtClient);
+
+
+            }
+            catch (Exception ex)
+            {
+                connecting.Close();
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void CheckStatus(object sender, RoutedEventArgs e)
+        {
+            bool pingable = false;
+            Ping pinger = null;
+            try
+            {
+                pinger = new Ping();
+                PingReply reply = pinger.Send("192.168.31.1");
+                pingable = reply.Status == IPStatus.Success;
+                if (pingable)
+                {
+                    providerStatusResult.Text = "Соединение установлено.\nУстройство работает стабильно.";
+                } else
+                {
+                    providerStatusResult.Text = "Соединение не установлено.\nМогут быть проблемы с работой устройства.";
+                }
+            }
+            catch (PingException ex)
+            {
+                MessageBox.Show(ex.Message);
+                // Discard PingExceptions and return false;
+            }
+            finally
+            {
+                if (pinger != null)
+                {
+                    pinger.Dispose();
+                }
+            }
+        }
+        //
+        private void SendRequest(object sender, RoutedEventArgs e)
+        {
+            using (var stream = new FileStream("../../resources/credentials.json", FileMode.Open, FileAccess.Read))
+            {
+                string credPath = "token.json";
+                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.Load(stream).Secrets,
+                    new[] { GmailService.Scope.GmailCompose, GmailService.Scope.GmailSend, GmailService.Scope.GmailModify },
+                    "user",
+                    CancellationToken.None,
+                    new FileDataStore(credPath, true)).Result;
+            }
+
+            // Создание сервиса Gmail
+            var service = new GmailService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "eTOM.App"
+            });
+            
+            /*
+            // Получение списка сообщений
+            var listRequest = service.Users.Messages.List("me");
+            listRequest.MaxResults = 10;
+            var response = listRequest.Execute();
+            IList<Message> messages = response.Messages;
+            if (messages != null && messages.Count > 0)
+            {
+                foreach (var message in messages)
+                {
+                    Console.WriteLine("Message Id: " + message.Id);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No messages found.");
+            }*/
+
+            var email = new Google.Apis.Gmail.v1.Data.Message();
+            email.Raw = CreateMessage("iiiythuk.2003@gmail.com", "iiiythuk.2003@gmail.com", "Тема", "Текст");
+            Console.WriteLine(email.Raw);
+            try
+            {
+                // Отправка письма
+                service.Users.Messages.Send(email, "me").Execute();
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
