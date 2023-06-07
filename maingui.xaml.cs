@@ -19,6 +19,7 @@ using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -948,9 +949,15 @@ namespace eTOM
         //
         private void SendRequest(object sender, RoutedEventArgs e)
         {
+            if (providerContact.Text == null || string.IsNullOrWhiteSpace(providerContact.Text)) { MessageBox.Show("Введите почту поствавщика для письма"); return; }
+            else if (!Regex.IsMatch(providerContact.Text, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$")) { MessageBox.Show("Введите корректную почту поставщика"); return; }
+            else if (providerSearchModel.Text == null || string.IsNullOrWhiteSpace(providerSearchModel.Text)) { MessageBox.Show("Введите модель оборудования"); return; }
+            else if (providerSearchCount.Text == null || string.IsNullOrWhiteSpace(providerSearchCount.Text)) { MessageBox.Show("Введите количество оборудования"); return; }
+            else if (providerSearchCount.Text.Length != Regex.Replace(providerSearchCount.Text, @"[^0-9]", "").Length) { MessageBox.Show("Введите корректное количество оборудования"); return; }
+            
             using (var stream = new FileStream("../../resources/credentials.json", FileMode.Open, FileAccess.Read))
             {
-                string credPath = "token.json";
+                string credPath = "token";
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     new[] { GmailService.Scope.GmailCompose, GmailService.Scope.GmailSend, GmailService.Scope.GmailModify },
@@ -985,8 +992,11 @@ namespace eTOM
             }*/
 
             var email = new Google.Apis.Gmail.v1.Data.Message();
-            email.Raw = CreateMessage("iiiythuk.2003@gmail.com", "iiiythuk.2003@gmail.com", "Тема", "Текст");
-            Console.WriteLine(email.Raw);
+            email.Raw = CreateMessage(
+                "me", 
+                $"{providerContact.Text}", $"Поставка {providerSearchModel.Text}",
+                $"Здравствуйте!\n Наша компания хотела бы заказать у вас поставку оборудования {providerSearchModel.Text} в количестве {providerSearchCount.Text} штук\nЖдём вашего ответа!"); ;
+
             try
             {
                 // Отправка письма
@@ -996,6 +1006,27 @@ namespace eTOM
                 MessageBox.Show(ex.Message);
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        private void logOutGmail(object sender, RoutedEventArgs e)
+        {
+            string folderPath = "token";
+
+            if (!Directory.Exists(folderPath))
+            {
+                MessageBox.Show("Вы уже вышли или ещё не вошли в ваш аккаунт почты");
+                return;
+            }
+
+            string[] files = Directory.GetFiles(folderPath);
+            foreach (string file in files)
+            {
+                File.Delete(file);
+            }
+
+            Directory.Delete(folderPath);
+
+            MessageBox.Show("Вы вышли из вашего аккаунта почты");
         }
     }
 }

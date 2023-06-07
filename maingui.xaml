@@ -250,20 +250,18 @@
                         <TextBox x:Name="providerStatusCclient" Width="120" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="140,90,2,2" Style="{StaticResource InputBox}"/>
                         <Button Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-170,130,2,2" Content="Проверить" Click="CheckStatus"/>
                         <TextBox x:Name="providerStatusResult" FontSize="12" Width="160" Height="50" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="100,130,2,2" IsReadOnly="True" Style="{StaticResource InputBox}"/>
-                        
-                        <Rectangle Fill="#2C4370" Grid.Column="0" Grid.Row="1"  StrokeThickness="0" RadiusX="20" RadiusY="20" Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Margin="10,10,10,0" Text="Запрос на поставку" Foreground="#2C4370"  Background="#FFF9F3" FontSize="24"/>
+
+                        <Rectangle Fill="#2C4370" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"  StrokeThickness="0" RadiusX="20" RadiusY="20" Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" Margin="10,10,10,0" Text="Запрос на поставку" Foreground="#2C4370"  Background="#FFF9F3" FontSize="24"/>
                         <TextBlock Width="120" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-170,70,2,2">Модель</TextBlock>
                         <TextBlock Width="120" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="170,70,2,2">Количество</TextBlock>
                         <TextBox x:Name="providerSearchModel" Width="120" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-170,100,2,2" Style="{StaticResource InputBox}"/>
                         <TextBox x:Name="providerSearchCount" Width="120" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="170,100,2,2" Style="{StaticResource InputBox}"/>
-                        <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="30,140,2,2" Content="Отправить" Click="SendRequest"/>
+                        <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="2,140,2,2" Content="Отправить" Click="SendRequest"/>
 
-                        <Rectangle Fill="#2C4370" Grid.Column="1" Grid.Row="1" StrokeThickness="0" RadiusX="20" RadiusY="20" Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="10,10,10,0" Text="\" Foreground="#2C4370"  Background="#FFF9F3" FontSize="24"/>
-                        <TextBlock x:Name="statsMor" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,70,2,2">С тарифом AllIn: 10</TextBlock>
-                        <TextBlock x:Name="statsMor1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,100,2,2">С тарифом 0RUB: 10</TextBlock>
-                        <TextBlock x:Name="statsMor2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,130,2,2">С оборудованием: 10</TextBlock>
+                        <TextBlock Width="220" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="2,70,2,2">Почта поставщика</TextBlock>
+                        <TextBox x:Name="providerContact" Width="220" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="2,100,2,2" Text="iiiythuk.2003@gmail.com" Style="{StaticResource InputBox}"/>
+                        <Button Width="200" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="2,140,2,2" Content="Выйти из аккаунта Gmail" Click="logOutGmail"/>
 
                     </Grid>
                 </TabItem.Content>
