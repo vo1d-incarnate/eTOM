@@ -37,7 +37,7 @@
         
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Адрес</TextBlock>
 
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="10,2,10,2"><TextBox Padding="0,0,6,0" MaxWidth="760"  x:Name="address" AcceptsReturn="True" TextWrapping="Wrap" Style="{StaticResource InputBox}"/></ScrollViewer>
+        <ScrollViewer HorizontalAlignment="Stretch"  Width="680" VerticalAlignment="Stretch" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="10,2,10,2"><TextBox Padding="0,0,6,0"  x:Name="address" AcceptsReturn="True" TextWrapping="Wrap" Style="{StaticResource InputBox}"/></ScrollViewer>
 
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Номер телефона</TextBlock>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource Header}">Номер документа</TextBlock>

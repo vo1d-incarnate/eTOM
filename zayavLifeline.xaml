@@ -23,11 +23,11 @@
             <ColumnDefinition Width ="1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock Style="{StaticResource Header}" x:Name="zayavNumb" FontSize="20" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Заявка № 1111</TextBlock>
-        <TextBlock Style="{StaticResource Forecast}" x:Name="tarif" FontSize="20" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">Тариф все все все</TextBlock>
-        <TextBlock Style="{StaticResource Forecast}" x:Name="contractnumb" FontSize="20" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Договор №</TextBlock>
-        <TextBlock Style="{StaticResource Forecast}" x:Name="comment" FontSize="14" Margin="2,2,2,2" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"><Run Text="sdfp,poposfmdddddddddddddddddddddddddddddddddddddddddddffffffffffffffffffdddddddddd "/><LineBreak/><Run Text="dfd"/></TextBlock>
-        <TextBlock Style="{StaticResource Forecast}" x:Name="createdAt" FontSize="20" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">12312312312</TextBlock>
-        <TextBlock Style="{StaticResource Forecast}" x:Name="user" FontSize="20" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Futtd F. F.</TextBlock>
+        <TextBlock Style="{StaticResource Header}" x:Name="tarif" FontSize="20" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">Тариф все все все</TextBlock>
+        <TextBlock Style="{StaticResource Header}" x:Name="contractnumb" FontSize="20" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Договор №</TextBlock>
+        <TextBlock Style="{StaticResource Header}" x:Name="comment" FontSize="14" Margin="2,2,2,2" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"><Run Text="sdfp,poposfmdddddddddddddddddddddddddddddddddddddddddddffffffffffffffffffdddddddddd "/><LineBreak/><Run Text="dfd"/></TextBlock>
+        <TextBlock Style="{StaticResource Header}" x:Name="createdAt" FontSize="20" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">12312312312</TextBlock>
+        <TextBlock Style="{StaticResource Header}" x:Name="user" FontSize="20" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Futtd F. F.</TextBlock>
         <DataGrid AutoGenerateColumns="False" x:Name="Zayav_lifeline" ItemsSource="{Binding Path=Zayav_lifeline}" CanUserResizeRows="False"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
             <DataGrid.Resources>
                 <Style TargetType="TextBlock" x:Key="WrapText">
@@ -35,7 +35,7 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Номер заявки" Width="*" Binding="{Binding Path=id}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Номер заявки" Visibility="Hidden" Width="*" Binding="{Binding Path=id}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Комментарий" Width="*" Binding="{Binding Path=comment}" ElementStyle="{StaticResource WrapText}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Дата" Width="*" Binding="{Binding Path=created_at, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" ></DataGridTextColumn>
             </DataGrid.Columns>

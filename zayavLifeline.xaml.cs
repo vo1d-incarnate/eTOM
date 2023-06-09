@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -97,31 +98,6 @@ namespace eTOM
         {
             try
             {
-                /*
-                connecting.Open();
-                string sql = @"SELECT id, service_id, comment, createdAt FROM public." + '\u0022' + "Zayav_lifeline" + '\u0022' + " WHERE service_id=" + '\u0027' + zayavIdLocal + '\u0027' + ";";
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
-                NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
-                DataTable iDataSet = new DataTable();
-                iAdapter.Fill(iDataSet);
-
-                string sql1 = @"SELECT id, serv_name FROM public." + '\u0022' + "Services" + '\u0022' + ";";
-                NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connecting);
-                NpgsqlDataAdapter iAdapter1 = new NpgsqlDataAdapter(cmd1);
-                DataTable iDataSet1 = new DataTable();
-                iAdapter1.Fill(iDataSet1);
-
-                for (int i = 0; i < iDataSet.Rows.Count; i++)
-                {
-                    iDataSet.Rows[i][1] = iDataSet1.Rows[(int)iDataSet.Rows[i][1]][1];
-                }
-
-                //     (services.Columns[4] as DataGridTextColumn).Binding.StringFormat = "dd.MM.yyyy";
-                clients.IsReadOnly = true;
-                clients.DataContext = iDataSet;
-
-                connecting.Close();*/
-
                 connecting.Open();
                 string sql = @"SELECT id, comment, created_at FROM public." + '\u0022' + "Zayav_lifeline" + '\u0022' + " WHERE zayav_id=" + '\u0027' + zayavIdLocal + '\u0027' + ";";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
@@ -147,19 +123,10 @@ namespace eTOM
             ZayavLifeline_table();
         }
 
-
-
-
-
-
         private void ZayavLifelineAdd_click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void ZayavLifelineCheck_click(object sender, RoutedEventArgs e)
-        {
-
+            ZayavLifelineAdd zayavLifelineAdd = new ZayavLifelineAdd(zayavIdLocal);
+            zayavLifelineAdd.Show();
         }
     }
 }
