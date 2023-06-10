@@ -632,7 +632,7 @@ namespace eTOM
                     "&chd=t:" + GetForecastString(dataPoints) + // Данные графика
                     "&chxl=0:|" + strMonth0 + "|" + strMonth1 + "|" + strMonth2 + "|" + strMonth3 + "|" + strMonth4 +
                     "&chdl=Прирост клиентов" + // Легенда графика
-                    "&chtt=Подключённые заявки за месяц" + // Заголовок графика
+                    "&chtt=Заведенные заявки за месяц" + // Заголовок графика
                     "&chts=FFF9F3" +
                     "&chdls=FFF9F3" + // Цвет текста легенды
                     "&chdlp=b" + // Выравнивание легенды 
@@ -776,7 +776,7 @@ namespace eTOM
                     "&chd=t:" + GetForecastString(dataPoints) + // Данные графика
                     "&chxl=0:|" + iDataTable1.Rows[0][0] + "|" + iDataTable1.Rows[1][0] + "|" + iDataTable1.Rows[2][0] + "|" + iDataTable1.Rows[3][0] +
                     "&chdl=" + countTarif0 + "|" + countTarif1 + "|" + countTarif2 + "|" + countTarif3 + // Легенда графика
-                    "&chtt=Подключённые заявки за месяц" + // Заголовок графика
+                    "&chtt=Заведенные заявки за месяц" + // Заголовок графика
                     "&chts=FFF9F3" +
                     "&chdls=FFF9F3" + // Цвет текста легенды
                     "&chdlp=b" + // Выравнивание легенды 

@@ -37,13 +37,12 @@ namespace eTOM
             ZayavLifeline_table();
             ZayavInfo();
         }
-
-        private void ZayavInfo()
+        private void ZayavInfo() 
         {
             try
             {
                 connecting.Open();
-                string sql = @"SELECT id, service_id, comment, created_at, user_id, client_id FROM public." + '\u0022' + "Zayavki" + '\u0022' + " WHERE id=" + '\u0027' + zayavIdLocal + '\u0027' + ";";
+                string sql = @"SELECT id, service_id, comment, created_at, user_id, client_id FROM public." + '\u0022' + "Zayavki" + '\u0022' + " WHERE id=" + '\u0027' + zayavIdLocal + '\u0027' + ";"; // Строка SQL запроса
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataTable iDataSet = new DataTable();
@@ -54,28 +53,24 @@ namespace eTOM
                     tarif.Text = "Тариф не выбран";
                 }
                 else {
-                    string sql1 = @"SELECT id, serv_name FROM public." + '\u0022' + "Services" + '\u0022' + " WHERE id=" + '\u0027' + iDataSet.Rows[0][1].ToString() + '\u0027' + ";";
+                    string sql1 = @"SELECT id, serv_name FROM public." + '\u0022' + "Services" + '\u0022' + " WHERE id=" + '\u0027' + iDataSet.Rows[0][1].ToString() + '\u0027' + ";"; // Строка SQL запроса
                     NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connecting);
                     NpgsqlDataAdapter iAdapter1 = new NpgsqlDataAdapter(cmd1);
                     DataTable iDataSet1 = new DataTable();
-                    iAdapter1.Fill(iDataSet1);
-                    
-
+                    iAdapter1.Fill(iDataSet1);  
                     tarif.Text = "Тариф " + iDataSet1.Rows[0][1].ToString();
                 }
-                string sql2 = @"SELECT login FROM public." + '\u0022' + "User_login" + '\u0022' + " WHERE id=" + '\u0027' + iDataSet.Rows[0][4].ToString() + '\u0027' + ";";
+                string sql2 = @"SELECT login FROM public." + '\u0022' + "User_login" + '\u0022' + " WHERE id=" + '\u0027' + iDataSet.Rows[0][4].ToString() + '\u0027' + ";"; // Строка SQL запроса
                 NpgsqlCommand cmd2 = new NpgsqlCommand(sql2, connecting);
                 NpgsqlDataAdapter iAdapter2 = new NpgsqlDataAdapter(cmd2);
                 DataTable iDataSet2 = new DataTable();
                 iAdapter2.Fill(iDataSet2);
 
-                string sql3 = @"SELECT contractnumb FROM public." + '\u0022' + "Clients" + '\u0022' + " WHERE id=" + '\u0027' + iDataSet.Rows[0][5].ToString() + '\u0027' + ";";
+                string sql3 = @"SELECT contractnumb FROM public." + '\u0022' + "Clients" + '\u0022' + " WHERE id=" + '\u0027' + iDataSet.Rows[0][5].ToString() + '\u0027' + ";"; // Строка SQL запроса
                 NpgsqlCommand cmd3 = new NpgsqlCommand(sql3, connecting);
                 NpgsqlDataAdapter iAdapter3 = new NpgsqlDataAdapter(cmd3);
                 DataTable iDataSet3 = new DataTable();
                 iAdapter3.Fill(iDataSet3);
-
-
 
                 contractnumb.Text = "Договор №" + iDataSet3.Rows[0][0].ToString();
                 user.Text = iDataSet2.Rows[0][0].ToString();
@@ -83,9 +78,7 @@ namespace eTOM
                 comment.Text = iDataSet.Rows[0][2].ToString();
                 createdAt.Text = iDataSet.Rows[0][3].ToString();
 
-
                 connecting.Close();
-
 
             } catch (Exception ex)
             {
@@ -93,13 +86,12 @@ namespace eTOM
                 MessageBox.Show("Error" + ex.Message);
             }
         }
-
         private void ZayavLifeline_table()
         {
             try
             {
                 connecting.Open();
-                string sql = @"SELECT id, comment, created_at FROM public." + '\u0022' + "Zayav_lifeline" + '\u0022' + " WHERE zayav_id=" + '\u0027' + zayavIdLocal + '\u0027' + ";";
+                string sql = @"SELECT id, comment, created_at FROM public." + '\u0022' + "Zayav_lifeline" + '\u0022' + " WHERE zayav_id=" + '\u0027' + zayavIdLocal + '\u0027' + ";"; // Строка SQL запроса
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connecting);
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataSet iDataSet = new DataSet();
@@ -117,12 +109,10 @@ namespace eTOM
                 MessageBox.Show("Error" + ex.Message);
             }
         }
-
         private void Reload_page(object sender, RoutedEventArgs e)
         {
             ZayavLifeline_table();
         }
-
         private void ZayavLifelineAdd_click(object sender, RoutedEventArgs e)
         {
             ZayavLifelineAdd zayavLifelineAdd = new ZayavLifelineAdd(zayavIdLocal);

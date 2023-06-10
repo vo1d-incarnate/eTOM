@@ -9,18 +9,30 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition><!--0*-->
-            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition><!--1-->
-            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition><!--2-->
-            <RowDefinition Height="0.5*"></RowDefinition><!--3*-->
-            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition><!--4-->
-            <RowDefinition Height="0.05*" MinHeight="50"></RowDefinition><!--5-->
-            <RowDefinition Height="0.5*"></RowDefinition><!--6*-->
-            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition><!--7-->
-            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition><!--8-->
-            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition><!--9*-->
-            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition><!--10-->
-            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition><!--11*-->
+            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition>
+            <!--0*-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition>
+            <!--1-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition>
+            <!--2-->
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <!--3*-->
+            <RowDefinition Height="0.05*" MinHeight="36"></RowDefinition>
+            <!--4-->
+            <RowDefinition Height="0.05*" MinHeight="50"></RowDefinition>
+            <!--5-->
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <!--6*-->
+            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition>
+            <!--7-->
+            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition>
+            <!--8-->
+            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition>
+            <!--9*-->
+            <RowDefinition Height="0.05*" MinHeight="44"></RowDefinition>
+            <!--10-->
+            <RowDefinition Height="0.5*" MinHeight="36"></RowDefinition>
+            <!--11*-->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width ="1*"></ColumnDefinition>
@@ -34,10 +46,12 @@
         <TextBox x:Name="name" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
         <TextBox x:Name="surname" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
         <TextBox x:Name="fatherName" Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource InputBox}"/>
-        
+
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Адрес</TextBlock>
 
-        <ScrollViewer HorizontalAlignment="Stretch"  Width="680" VerticalAlignment="Stretch" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="10,2,10,2"><TextBox Padding="0,0,6,0"  x:Name="address" AcceptsReturn="True" TextWrapping="Wrap" Style="{StaticResource InputBox}"/></ScrollViewer>
+        <ScrollViewer HorizontalAlignment="Stretch"  Width="680" VerticalAlignment="Stretch" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="10,2,10,2">
+            <TextBox Padding="0,0,6,0"  x:Name="address" AcceptsReturn="True" TextWrapping="Wrap" Style="{StaticResource InputBox}"/>
+        </ScrollViewer>
 
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="0" Margin="0,2,0,2" Style="{StaticResource Header}">Номер телефона</TextBlock>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource Header}">Номер документа</TextBlock>

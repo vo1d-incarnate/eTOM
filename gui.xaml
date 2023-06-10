@@ -71,7 +71,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
     </Page.Resources>
     <Grid Background="#CC7218">
         <TabControl Background="#ffb56b" SelectionChanged="TabControl_SelectionChanged_1">

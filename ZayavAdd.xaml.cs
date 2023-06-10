@@ -21,7 +21,7 @@ namespace eTOM
     /// </summary>
     public partial class ZayavAdd : Window
     {
-        private string connectPostgre = String.Format("Server=Localhost;Port=5432;User Id=postgres;password=MmV8qd-+1!;Database=eTOM");
+        private string connectPostgre = String.Format("Server=Localhost;Port=5432;User Id=postgres;password=MmV8qd-+1!;Database=eTOM"); // Подключение к бд
         private NpgsqlConnection connect;
         private int userIdLocal;
         public ZayavAdd(int userId)
@@ -33,7 +33,7 @@ namespace eTOM
             try
             {
                 connect.Open();
-                string sql = @"SELECT serv_name FROM public." + '\u0022' + "Services" + '\u0022' + ";";
+                string sql = @"SELECT serv_name FROM public." + '\u0022' + "Services" + '\u0022' + ";"; // Строка SQL запроса
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connect);
                 cmd.ExecuteNonQuery();
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
@@ -48,7 +48,7 @@ namespace eTOM
                 
                 service_choose.ItemsSource = comboboxItems;
 
-                string sql1 = @"SELECT contractnumb FROM public." + '\u0022' + "Clients" + '\u0022' + ";";
+                string sql1 = @"SELECT contractnumb FROM public." + '\u0022' + "Clients" + '\u0022' + ";"; // Строка SQL запроса
                 NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connect);
                 cmd1.ExecuteNonQuery();
                 NpgsqlDataAdapter iAdapter1 = new NpgsqlDataAdapter(cmd1);
@@ -83,21 +83,21 @@ namespace eTOM
             {
                 connect.Open();
 
-                string sql = @"SELECT id FROM public." + '\u0022' + "Services" + '\u0022' + " WHERE " + "serv_name=" + '\u0027' + service_choose.Text +'\u0027' + ";";
+                string sql = @"SELECT id FROM public." + '\u0022' + "Services" + '\u0022' + " WHERE " + "serv_name=" + '\u0027' + service_choose.Text +'\u0027' + ";"; // Строка SQL запроса
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connect);
                 cmd.ExecuteNonQuery();
                 NpgsqlDataAdapter iAdapter = new NpgsqlDataAdapter(cmd);
                 DataTable iDataTable = new DataTable();
                 iAdapter.Fill(iDataTable);
 
-                string sql1 = @"SELECT id FROM public." + '\u0022' + "Clients" + '\u0022' + " WHERE " + "contractnumb=" + '\u0027' + client_choose.Text + '\u0027' + ";";
+                string sql1 = @"SELECT id FROM public." + '\u0022' + "Clients" + '\u0022' + " WHERE " + "contractnumb=" + '\u0027' + client_choose.Text + '\u0027' + ";"; // Строка SQL запроса
                 NpgsqlCommand cmd1 = new NpgsqlCommand(sql1, connect);
                 cmd1.ExecuteNonQuery();
                 NpgsqlDataAdapter iAdapter1 = new NpgsqlDataAdapter(cmd1);
                 DataTable iDataTable1 = new DataTable();
                 iAdapter1.Fill(iDataTable1);
 
-                string sql2 = @"INSERT INTO public." + '\u0022' + "Zayavki" + '\u0022' + "(service_id, comment, user_id, client_id) VALUES (" + '\u0027' + iDataTable.Rows[0][0].ToString() + '\u0027' + ", " + '\u0027' + comment.Text + '\u0027' + ", " + '\u0027' + userIdLocal.ToString() + '\u0027' + ", " + '\u0027' + iDataTable1.Rows[0][0].ToString() + '\u0027' + ");";
+                string sql2 = @"INSERT INTO public." + '\u0022' + "Zayavki" + '\u0022' + "(service_id, comment, user_id, client_id) VALUES (" + '\u0027' + iDataTable.Rows[0][0].ToString() + '\u0027' + ", " + '\u0027' + comment.Text + '\u0027' + ", " + '\u0027' + userIdLocal.ToString() + '\u0027' + ", " + '\u0027' + iDataTable1.Rows[0][0].ToString() + '\u0027' + ");"; // Строка SQL запроса
                 NpgsqlCommand cmd2 = new NpgsqlCommand(sql2, connect);
                 cmd2.ExecuteNonQuery();
                 

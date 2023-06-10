@@ -8,53 +8,15 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="LoginPage">
-    <Page.Resources>
-        <Style  TargetType="{x:Type TabItem}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Margin" Value="-2,-2,0,2"></Setter>
-            <Setter Property="Foreground" Value="#ffb56b"/>
-            <Setter Property="Background" Value="#CC7218"/>
-            <Setter Property="BorderBrush" Value="#CC7218"/>
-            <Setter Property="MinHeight" Value="40"/>
-            <Setter Property="MinWidth" Value="100"/>
-            <Setter Property="MaxHeight" Value="80"/>
-            <Setter Property="MaxWidth" Value="200"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TabItem}">
-                        <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"  >
-                            <Grid >
-                                <ContentPresenter HorizontalAlignment="Center" Margin="12,2,12,2" x:Name="ContentSite" VerticalAlignment="Center" RecognizesAccessKey="True" ContentSource="Header" />
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Foreground" Value="#CC7218"/>
-                                <Setter Property="Background" Value="#ffb56b"/>
-                                <Setter Property="BorderBrush" Value="#ffb56b"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
 
-
-                </Setter.Value>
-            </Setter>
-
-        </Style>
-
-
-        <local:SampleData x:Key="SampleData"/>
-        <converters:ListToTextEncodingConverter x:Key="ListToTextEncodingConverter"/>
-    </Page.Resources>
-
-    <Grid Background="#CC7218">
-        <Canvas Background="#ffb56b" Margin="186,60,186,60" FocusManager.FocusedElement="{Binding ElementName=password}">
+    <Grid Background="#2C4370">
+        <Canvas Background="#117B8E" Margin="186,60,186,60" FocusManager.FocusedElement="{Binding ElementName=password}" >
             <TextBlock Canvas.Left="124" Canvas.Top="10" FontSize="30">Авторизация</TextBlock>
             <TextBlock Canvas.Left="114" Canvas.Top="82">Логин</TextBlock>
             <TextBlock Canvas.Left="114" Canvas.Top="144">Пароль</TextBlock>
             <TextBox Style="{StaticResource InputBox}" x:Name="login"  Width="200" Height="30" Canvas.Left="114" Canvas.Top="103" HorizontalAlignment="Center" VerticalAlignment="Center" Text="a"/>
             <TextBox Style="{StaticResource InputBox}" x:Name="password" KeyDown="OnKeyDownHandler" Width="200" Height="30" Canvas.Left="114" Canvas.Top="165" HorizontalAlignment="Center" VerticalAlignment="Top" Text="a"/>
-            <Button Click="logIn" Canvas.Left="176" Canvas.Top="263" Content="Войти" Height="30" Width="76" HorizontalAlignment="Left" VerticalAlignment="Top"></Button>
+            <Button Click="logIn" Background="#2C4370" Canvas.Left="176" Canvas.Top="263" Content="Войти" Height="30" Width="76" HorizontalAlignment="Left" VerticalAlignment="Top"></Button>
         </Canvas>
     </Grid>
 </Page>
