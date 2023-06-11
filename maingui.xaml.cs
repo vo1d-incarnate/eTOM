@@ -955,7 +955,7 @@ namespace eTOM
             else if (providerSearchCount.Text == null || string.IsNullOrWhiteSpace(providerSearchCount.Text)) { MessageBox.Show("Введите количество оборудования"); return; }
             else if (providerSearchCount.Text.Length != Regex.Replace(providerSearchCount.Text, @"[^0-9]", "").Length) { MessageBox.Show("Введите корректное количество оборудования"); return; }
             
-            using (var stream = new FileStream("../../resources/credentials.json", FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream("C:/resources/credentials.json", FileMode.Open, FileAccess.Read))
             {
                 string credPath = "token";
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(

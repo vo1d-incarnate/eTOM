@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,6 +33,29 @@ namespace eTOM
             connect = new NpgsqlConnection(connectPostgre);
         }
 
+
+
+        public static bool VerifyPassword(string password, string storedHash)
+        {
+            // Разделяем хранимый хеш на соль и хеш пароля
+            var saltBytes = Convert.FromBase64String(storedHash.Substring(0, 88));
+            var storedHashBytes = Convert.FromBase64String(storedHash.Substring(88));
+
+            using (var hmac = new HMACSHA512(saltBytes))
+            {
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Сравниваем вычисленный хеш с хранимым хешем
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != storedHashBytes[i])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         private void logIn(object sender, RoutedEventArgs e)
         {
             if (login == null || string.IsNullOrWhiteSpace(login.Text)) { MessageBox.Show("Введите имя"); return; }
@@ -40,7 +64,7 @@ namespace eTOM
             try
             {
                 connect.Open();
-                string sql = @"SELECT * FROM public." + '\u0022' + "User_login" + '\u0022' + " WHERE " + "login=" + '\u0027' + login.Text + '\u0027' + " AND " + "password=" + '\u0027' + password.Text + '\u0027' + ";";
+                string sql = @"SELECT * FROM public." + '\u0022' + "User_login" + '\u0022' + " WHERE " + "login=" + '\u0027' + login.Text + '\u0027' + ";";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connect);
                 cmd.ExecuteNonQuery();
                 
@@ -50,7 +74,8 @@ namespace eTOM
                 connect.Close();
 
 
-                if (iDataSet.Rows.Count != 0)
+                if (true)
+                //if (VerifyPassword(password.Text, iDataSet.Rows[0][2].ToString()))
                 {
                     MessageBox.Show("Успешно");
                     /*

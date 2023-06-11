@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,12 +32,33 @@ namespace eTOM
             connect = new NpgsqlConnection(connectPostgre);
         }
 
+
+        public static string HashPassword(string password)
+        {
+            byte[] salt;
+            byte[] hash;
+
+            using (var hmac = new HMACSHA512())
+            {
+                salt = hmac.Key;
+                hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
+
+            // Комбинируем соль и хеш в одну строку
+            var saltBase64 = Convert.ToBase64String(salt);
+            var hashBase64 = Convert.ToBase64String(hash);
+            var combinedHash = string.Concat(saltBase64, hashBase64);
+
+            return combinedHash;
+        }
+
+
         private void signup(object sender, RoutedEventArgs e)
         {
             try
             {
                 connect.Open();
-                string sql = @"INSERT INTO public." + '\u0022' + "User_login" + '\u0022' + " (login, password) VALUES (" + '\u0027' + login.Text + '\u0027' + ", " + '\u0027' + password.Text + '\u0027' + ");";
+                string sql = @"INSERT INTO public." + '\u0022' + "User_login" + '\u0022' + " (login, password) VALUES (" + '\u0027' + login.Text + '\u0027' + ", " + '\u0027' + HashPassword(password.Text) + '\u0027' + ");";
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, connect);
                 cmd.ExecuteNonQuery();
 
