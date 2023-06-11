@@ -41,14 +41,22 @@ namespace eTOM
             using (var hmac = new HMACSHA512())
             {
                 salt = hmac.Key;
+                Console.WriteLine(salt.Length);
                 hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
 
             // Комбинируем соль и хеш в одну строку
             var saltBase64 = Convert.ToBase64String(salt);
             var hashBase64 = Convert.ToBase64String(hash);
-            var combinedHash = string.Concat(saltBase64, hashBase64);
+            //var combinedHash = string.Concat(saltBase64, hashBase64);
 
+            var combinedBytes = new byte[salt.Length + hash.Length];
+            Buffer.BlockCopy(salt, 0, combinedBytes, 0, salt.Length);
+            Buffer.BlockCopy(hash, 0, combinedBytes, salt.Length, hash.Length);
+
+            var combinedHash = Convert.ToBase64String(combinedBytes);
+            Console.WriteLine(combinedHash.Length);
+            Console.WriteLine(combinedHash);
             return combinedHash;
         }
 

@@ -33,28 +33,65 @@ namespace eTOM
             connect = new NpgsqlConnection(connectPostgre);
         }
 
+        public static string HashPassword(string password)
+        {
+            byte[] salt;
+            byte[] hash;
 
+            using (var hmac = new HMACSHA512())
+            {
+                salt = hmac.Key;
+                hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
+
+            // Комбинируем соль и хеш в одну строку
+            var saltBase64 = Convert.ToBase64String(salt);
+            var hashBase64 = Convert.ToBase64String(hash);
+            //var combinedHash = string.Concat(saltBase64, hashBase64);
+
+            var combinedBytes = new byte[salt.Length + hash.Length];
+            Buffer.BlockCopy(salt, 0, combinedBytes, 0, salt.Length);
+            Buffer.BlockCopy(hash, 0, combinedBytes, salt.Length, hash.Length);
+
+            var combinedHash = Convert.ToBase64String(combinedBytes);
+            Console.WriteLine(combinedHash.Length);
+            Console.WriteLine(combinedHash);
+            return combinedHash;
+        }
 
         public static bool VerifyPassword(string password, string storedHash)
         {
-            // Разделяем хранимый хеш на соль и хеш пароля
-            var saltBytes = Convert.FromBase64String(storedHash.Substring(0, 88));
-            var storedHashBytes = Convert.FromBase64String(storedHash.Substring(88));
-
-            using (var hmac = new HMACSHA512(saltBytes))
+            try
             {
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                // Разделяем хранимый хеш на соль и хеш пароля
+                var combinedBytes = Convert.FromBase64String(storedHash);
+                var saltBytes = new byte[128];
+                var storedHashBytes = new byte[combinedBytes.Length - 128];
 
-                // Сравниваем вычисленный хеш с хранимым хешем
-                for (int i = 0; i < computedHash.Length; i++)
+                Buffer.BlockCopy(combinedBytes, 0, saltBytes, 0, 128);
+                Buffer.BlockCopy(combinedBytes, 128, storedHashBytes, 0, storedHashBytes.Length);
+
+                using (var hmac = new HMACSHA512(saltBytes))
                 {
-                    if (computedHash[i] != storedHashBytes[i])
+                    var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                    Console.WriteLine(Convert.ToBase64String(computedHash));
+                    // Сравниваем вычисленный хеш с хранимым хешем
+                    for (int i = 0; i < computedHash.Length; i++)
                     {
-                        return false;
+                        if (computedHash[i] != storedHashBytes[i])
+                        {
+                            return false;
+                        }
                     }
                 }
+
+                return true;
             }
-            return true;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
         private void logIn(object sender, RoutedEventArgs e)
         {
@@ -74,15 +111,15 @@ namespace eTOM
                 connect.Close();
 
 
-                if (true)
-                //if (VerifyPassword(password.Text, iDataSet.Rows[0][2].ToString()))
+                //if (true)
+                if (VerifyPassword(password.Text, iDataSet.Rows[0][2].ToString()))
                 {
                     MessageBox.Show("Успешно");
                     /*
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                     Window.GetWindow(this).Close();*/
-
+                    // qqqqqqqq
 
                     connect.Open();
                     string sql1 = @"SELECT * FROM public." + '\u0022' + "user_roles" + '\u0022' + " WHERE " + "user_id=" + iDataSet.Rows[0][0].ToString() + ";";
@@ -122,6 +159,7 @@ namespace eTOM
             {
                 connect .Close();
                 MessageBox.Show("Error: " + ex.Message);
+                Console.WriteLine(ex.Message);
             }
 
         }
